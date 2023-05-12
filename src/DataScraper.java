@@ -13,16 +13,16 @@ public class DataScraper {
             System.out.println("> Currently on game " + (i + 1));
             Board.getInstance().gameLoop(2, 2, new int[42], false, depth);
             String winner;
-            if (Board.getInstance().evaluate() == 99999) {
+            if (Board.getInstance().evaluate() == 999999) {
                 winner = "White";
-            } else if (Board.getInstance().evaluate() == -99999) {
+            } else if (Board.getInstance().evaluate() == -999999) {
                 winner = "Black";
             } else {
                 winner = "Draw";
             }
             String dataLine = depth + " " + Timer.averageMs() + " " + winner + " " + countFreeFields() + "\n";
             try {
-                Files.write(Paths.get("data.txt"), dataLine.getBytes(), StandardOpenOption.APPEND);
+                Files.write(Paths.get("data2.txt"), dataLine.getBytes(), StandardOpenOption.APPEND);
             }catch (IOException e) {
                 System.out.println("THROW IO BRO!!!");
             }

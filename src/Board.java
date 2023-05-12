@@ -27,7 +27,7 @@ public class Board {
     }
 
     public void printBoard() {
-        System.out.println(new HashRep().decode(playingBoard));
+        System.out.println("~~~~~~~~~~\nPosition-ID: " + new HashRep().decode(playingBoard));
         int start = 0;
         int stop = 7;
         for (int i = 0; i < 6; i++) {
@@ -69,25 +69,27 @@ public class Board {
         } else {
             playerBlack = new PlayerHuman();
         }
-        while (areFieldsLeft() && evaluate() != 99999 && evaluate() != -99999) {
+        while (areFieldsLeft() && evaluate() != 999999 && evaluate() != -999999) {
             if (print) printBoard();
             if (turn) {
+                if (print) System.out.println("?> White Starts Thinking");
                 makeMove(playerWhite.fetchMove(print), turn);
-                if (print) System.out.println("White made a move.");
+                if (print) System.out.println("?> White made a move.");
                 turn = false;
             } else {
+                if (print) System.out.println("?> Black Starts Thinking");
                 makeMove(playerBlack.fetchMove(print), turn);
-                if (print) System.out.println("Black made a move.");
+                if (print) System.out.println("?> Black made a move.");
                 turn = true;
             }
-            if (evaluate() == 99999 || evaluate() == -99999) {
+            if (evaluate() == 999999 || evaluate() == -999999) {
                 break;
             }
         }
         if (print) printBoard();
-        if (evaluate() == 99999) {
+        if (evaluate() == 999999) {
             if (print) System.out.println("\nWhite won.");
-        } else if (evaluate() == -99999) {
+        } else if (evaluate() == -999999) {
             if (print) System.out.println("\nBlack won.");
         } else {
             if (print) System.out.println("\nDraw.");
@@ -121,8 +123,11 @@ public class Board {
 
     protected int evaluate() {
         // winner eval
-        final int winnerBlack = -99999;
-        final int winnerWhite =  99999;
+        final int winnerBlack =  -999999;
+        final int winnerWhite =   999999;
+        final int bestAdvantage = 500000;
+        final int goodAdvantage = 250000;
+        final int okAdvantage =   10000;
         int advantage = 0;
         // Check for horizontal winner
         for (int i = 0; i < 6; i++) {
@@ -137,8 +142,8 @@ public class Board {
                     case -4 -> {
                         return winnerBlack;
                     }
-                    case 3 -> advantage += 1000;
-                    case -3 -> advantage -= 1000;
+                    case 3 -> advantage += okAdvantage;
+                    case -3 -> advantage -= okAdvantage;
                 }
             }
         }
@@ -155,8 +160,8 @@ public class Board {
                     case -4 -> {
                         return winnerBlack;
                     }
-                    case 3 -> advantage += 1000;
-                    case -3 -> advantage -= 1000;
+                    case 3 -> advantage += okAdvantage;
+                    case -3 -> advantage -= okAdvantage;
                 }
             }
         }
@@ -174,8 +179,8 @@ public class Board {
                     case -4 -> {
                         return winnerBlack;
                     }
-                    case 3 -> advantage += 1000;
-                    case -3 -> advantage -= 1000;
+                    case 3 -> advantage += okAdvantage;
+                    case -3 -> advantage -= okAdvantage;
                 }
             }
         }
@@ -192,8 +197,8 @@ public class Board {
                     case -4 -> {
                         return winnerBlack;
                     }
-                    case 3 -> advantage += 1000;
-                    case -3 -> advantage -= 1000;
+                    case 3 -> advantage += okAdvantage;
+                    case -3 -> advantage -= okAdvantage;
                 }
             }
         }
@@ -201,21 +206,21 @@ public class Board {
             for (int j = 0; j < 3; j++) {
                 if (playingBoard[i * 6 + j + i] == 0 && playingBoard[i * 6 + j + 4 + i] == 0) {
                     if (playingBoard[i * 6 + j + 1 + i] + playingBoard[i * 6 + j + 2 + i] + playingBoard[i * 6 + j + 3 + i] == 3) {
-                        advantage += 4000;
+                        advantage += bestAdvantage;
                     } else if (playingBoard[i * 6 + j + 1 + i] + playingBoard[i * 6 + j + 2 + i] + playingBoard[i * 6 + j + 3 + i] == -3) {
-                        advantage -= 4000;
+                        advantage -= bestAdvantage;
                     } else if (playingBoard[i * 6 + j + 1 + i] == 1 && playingBoard[i * 6 + j + 2 + i] == 1 && playingBoard[i * 6 + j + 3 + i] == 0) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[i * 6 + j + 1 + i] == 1 && playingBoard[i * 6 + j + 2 + i] == 0 && playingBoard[i * 6 + j + 3 + i] == 1) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[i * 6 + j + 1 + i] == 0 && playingBoard[i * 6 + j + 2 + i] == 1 && playingBoard[i * 6 + j + 3 + i] == 1) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[i * 6 + j + 1 + i] == -1 && playingBoard[i * 6 + j + 2 + i] == -1 && playingBoard[i * 6 + j + 3 + i] == 0) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     } else if (playingBoard[i * 6 + j + 1 + i] == -1 && playingBoard[i * 6 + j + 2 + i] == 0 && playingBoard[i * 6 + j + 3 + i] == -1) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     } else if (playingBoard[i * 6 + j + 1 + i] == 0 && playingBoard[i * 6 + j + 2 + i] == -1 && playingBoard[i * 6 + j + 3 + i] == -1) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     }
                 }
             }
@@ -224,21 +229,21 @@ public class Board {
             for (int j = 0; j < 2; j++) {
                 if (playingBoard[j * 7 + i] == 0 && playingBoard[j * 7 + i + 32] == 0) {
                     if (playingBoard[j * 7 + i + 8] + playingBoard[j * 7 + i + 16] + playingBoard[j * 7 + i + 24] == 3) {
-                        advantage += 4000;
+                        advantage += bestAdvantage;
                     } else if (playingBoard[j * 7 + i + 8] + playingBoard[j * 7 + i + 16] + playingBoard[j * 7 + i + 24] == -3) {
-                        advantage -= 4000;
+                        advantage -= bestAdvantage;
                     } else if (playingBoard[j * 7 + i + 8] == 1 && playingBoard[j * 7 + i + 16] == 1 && playingBoard[j * 7 + i + 24] == 0) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 8] == 1 && playingBoard[j * 7 + i + 16] == 0 && playingBoard[j * 7 + i + 24] == 1) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 8] == 0 && playingBoard[j * 7 + i + 16] == 1 && playingBoard[j * 7 + i + 24] == 1) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 8] == -1 && playingBoard[j * 7 + i + 16] == -1 && playingBoard[j * 7 + i + 24] == 0) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 8] == -1 && playingBoard[j * 7 + i + 16] == 0 && playingBoard[j * 7 + i + 24] == -1) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 8] == 0 && playingBoard[j * 7 + i + 16] == -1 && playingBoard[j * 7 + i + 24] == -1) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     }
                 }
             }
@@ -247,21 +252,21 @@ public class Board {
             for (int j = 0; j < 2; j++) {
                 if (playingBoard[j * 7 + i + 4] == 0 && playingBoard[j * 7 + i + 4 + 24] == 0) {
                     if (playingBoard[j * 7 + i + 4 + 6] + playingBoard[j * 7 + i + 4 + 12] + playingBoard[j * 7 + i + 4 + 18] == 3) {
-                        advantage += 4000;
+                        advantage += bestAdvantage;
                     } else if (playingBoard[j * 7 + i + 4 + 6] + playingBoard[j * 7 + i + 4 + 12] + playingBoard[j * 7 + i + 4 + 18] == -3) {
-                        advantage -= 4000;
+                        advantage -= bestAdvantage;
                     } else if (playingBoard[j * 7 + i + 4 + 6] == 1 && playingBoard[j * 7 + i + 4 + 12] == 1 && playingBoard[j * 7 + i + 4 + 18] == 0) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 4 + 6] == 1 && playingBoard[j * 7 + i + 4 + 12] == 0 && playingBoard[j * 7 + i + 4 + 18] == 1) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 4 + 6] == 0 && playingBoard[j * 7 + i + 4 + 12] == 1 && playingBoard[j * 7 + i + 4 + 18] == 1) {
-                        advantage += 2000;
+                        advantage += goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 4 + 6] == -1 && playingBoard[j * 7 + i + 4 + 12] == -1 && playingBoard[j * 7 + i + 4 + 18] == 0) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 4 + 6] == -1 && playingBoard[j * 7 + i + 4 + 12] == 0 && playingBoard[j * 7 + i + 4 + 18] == -1) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     } else if (playingBoard[j * 7 + i + 4 + 6] == 0 && playingBoard[j * 7 + i + 4 + 12] == -1 && playingBoard[j * 7 + i + 4 + 18] == -1) {
-                        advantage -= 2000;
+                        advantage -= goodAdvantage;
                     }
                 }
             }

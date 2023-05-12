@@ -51,7 +51,7 @@ public class Multithreading extends Thread {
         this.counter++;
 //        System.out.println("---------------\nc: " + counter + " | d: " + depth + " | mP: " + maximizingPlayer + " | a: " + alpha + " | b: " + beta);
         int evl = evaluate();
-        if (depth == 0 || evl == 99999 || evl == -99999) {
+        if (depth == 0 || evl == 999999 || evl == -999999) {
             return evl / (this.depth - depth + 1);
 //            return evl;
         }
@@ -59,7 +59,7 @@ public class Multithreading extends Thread {
         ArrayList<Integer> moves = legalMoves();
 //        order(moves);
         if (maximizingPlayer) {
-            int maxEval = -99999;
+            int maxEval = -999999;
             for (int m: moves) {
                 makeMove(m, true);
                 int eval = search(depth - 1, false, alpha, beta);
@@ -72,7 +72,7 @@ public class Multithreading extends Thread {
             }
             return maxEval;
         } else {
-            int minEval = 99999;
+            int minEval = 999999;
             for (int m: moves) {
                 makeMove(m, false);
                 int eval = search(depth - 1, true, alpha, beta);
@@ -113,8 +113,8 @@ public class Multithreading extends Thread {
 
     private int evaluate() {
         // winner eval
-        final int winnerBlack = -99999;
-        final int winnerWhite =  99999;
+        final int winnerBlack = -999999;
+        final int winnerWhite =  999999;
         int advantage = 0;
         // Check for horizontal winner
         for (int i = 0; i < 6; i++) {
