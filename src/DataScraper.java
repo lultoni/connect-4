@@ -11,7 +11,7 @@ public class DataScraper {
         System.out.println("Fetching " + gamesToPlay + " games with a depth of " + depth + ".");
         for (int i = 0; i < gamesToPlay; i++) {
             System.out.println("> Currently on game " + (i + 1));
-            Board.getInstance().gameLoop(new Player(2, depth - 1), new Player(2, depth - 1), new int[42], false);
+            Board.getInstance().gameLoop(2, 2, new int[42], false, depth);
             String winner;
             if (Board.getInstance().evaluate() == 99999) {
                 winner = "White";

@@ -21,7 +21,7 @@ public class Main {
         int pt1 = 2;
         int pt2 = 2;
         int depth = 8;
-        Board.getInstance().gameLoop(new Player(pt1, depth - 1), new Player(pt2, depth - 1), Board.getInstance().getPlayingBoard(), true);
+        Board.getInstance().gameLoop(2, 2, Board.getInstance().getPlayingBoard(), true, depth);
 
     }
 

@@ -27,6 +27,7 @@ public class Board {
     }
 
     public void printBoard() {
+        System.out.println(new HashRep().decode(playingBoard));
         int start = 0;
         int stop = 7;
         for (int i = 0; i < 6; i++) {
@@ -50,8 +51,24 @@ public class Board {
 
     private boolean turn = true;
 
-    public void gameLoop(Player playerWhite, Player playerBlack, int[] board, boolean print) {
+    public void gameLoop(int playerW, int playerB, int[] board, boolean print, int depth) {
         playingBoard = board;
+        Player playerWhite;
+        Player playerBlack;
+        if (playerW == 1) {
+            playerWhite = new PlayerRandom();
+        } else if (playerW == 2) {
+            playerWhite = new PlayerMinimax(depth);
+        } else {
+            playerWhite = new PlayerHuman();
+        }
+        if (playerB == 1) {
+            playerBlack = new PlayerRandom();
+        } else if (playerB == 2) {
+            playerBlack = new PlayerMinimax(depth);
+        } else {
+            playerBlack = new PlayerHuman();
+        }
         while (areFieldsLeft() && evaluate() != 99999 && evaluate() != -99999) {
             if (print) printBoard();
             if (turn) {

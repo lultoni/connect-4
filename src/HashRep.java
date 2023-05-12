@@ -3,7 +3,6 @@ import java.util.HashMap;
 public class HashRep {
 
     private final HashMap<Integer, Integer> table = new HashMap<>();
-    // Code-ID, Eval
 
     protected int prevSearch(int[] position) {
         int code = decode(position);
@@ -21,12 +20,20 @@ public class HashRep {
         table.clear();
     }
 
-    private int decode(int[] position) {
+    protected int decode(int[] position) {
         int code = 0;
         for (int i = 0; i < position.length; i++) {
-            code += i * position[i] + 1;
+            switch (position[i]) {
+                case 0 -> code += 3^i;
+                case 1 -> code += 2 * (3^i);
+                case -1 -> code += 3 * (3^i);
+            }
         }
         return code;
+    }
+
+    protected int size() {
+        return table.size();
     }
 
 }
