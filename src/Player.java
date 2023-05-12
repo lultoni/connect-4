@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Player {
 
@@ -18,28 +15,16 @@ public class Player {
     }
 
     int counter;
+    int col1val = 69420;
+    int col2val = 69420;
+    int col3val = 69420;
+    int col4val = 69420;
+    int col5val = 69420;
+    int col6val = 69420;
+    int col7val = 69420;
 
-    public int fetchMove() {
-        counter = 0;
-        int col1val = 69420;
-        int col2val = 69420;
-        int col3val = 69420;
-        int col4val = 69420;
-        int col5val = 69420;
-        int col6val = 69420;
-        int col7val = 69420;
-        int winnerval;
-        int loserval;
-        if (Board.getInstance().getTurn()) {
-            winnerval = 99999;
-            loserval = -99999;
-        } else {
-            winnerval = -99999;
-            loserval = 99999;
-        }
-        boolean turn = Board.getInstance().getTurn();
-        ArrayList<Integer> evalList = new ArrayList<>(0);
-        ArrayList<Integer> psList = new ArrayList<>(0);
+    private void assessCols(boolean turn, int winnerval, int loserval, ArrayList<Integer> evalList, ArrayList<Integer> psList) {
+        long startTime = System.nanoTime();
         if (Board.getInstance().isColNotFull(1)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -166,8 +151,91 @@ public class Player {
             Board.getInstance().loadBB();
             Timer.end();
         }
-        System.out.println(evalList);
-        System.out.println(psList);
+        long endTime = System.nanoTime();
+        long outTime = Math.round((endTime - startTime) / 1e+6);
+        System.out.println("No Multithreading: " + outTime + " ms");
+    }
+
+    private void assessColsThread(boolean turn, int winnerval, int loserval, ArrayList<Integer> evalList, ArrayList<Integer> psList) {
+        long startTime = System.nanoTime();
+        int index = 1;
+        if (Board.getInstance().isColNotFull(index)) {
+            Board.getInstance().makeMove(index, turn);
+            counter = 0;
+            Multithreading thread1 = new Multithreading(Board.getInstance().getPlayingBoard(), depth, !turn, -99999, 99999);
+            thread1.start();
+            Board.getInstance().undoMove(index);
+        }
+        index = 2;
+        if (Board.getInstance().isColNotFull(index)) {
+            Board.getInstance().makeMove(index, turn);
+            counter = 0;
+            Multithreading thread2 = new Multithreading(Board.getInstance().getPlayingBoard(), depth, !turn, -99999, 99999);
+            thread2.start();
+            Board.getInstance().undoMove(index);
+        }
+        index = 3;
+        if (Board.getInstance().isColNotFull(index)) {
+            Board.getInstance().makeMove(index, turn);
+            counter = 0;
+            Multithreading thread3 = new Multithreading(Board.getInstance().getPlayingBoard(), depth, !turn, -99999, 99999);
+            thread3.start();
+            Board.getInstance().undoMove(index);
+        }
+        index = 4;
+        if (Board.getInstance().isColNotFull(index)) {
+            Board.getInstance().makeMove(index, turn);
+            counter = 0;
+            Multithreading thread4 = new Multithreading(Board.getInstance().getPlayingBoard(), depth, !turn, -99999, 99999);
+            thread4.start();
+            Board.getInstance().undoMove(index);
+        }
+        index = 5;
+        if (Board.getInstance().isColNotFull(index)) {
+            Board.getInstance().makeMove(index, turn);
+            counter = 0;
+            Multithreading thread5 = new Multithreading(Board.getInstance().getPlayingBoard(), depth, !turn, -99999, 99999);
+            thread5.start();
+            Board.getInstance().undoMove(index);
+        }
+        index = 6;
+        if (Board.getInstance().isColNotFull(index)) {
+            Board.getInstance().makeMove(index, turn);
+            counter = 0;
+            Multithreading thread6 = new Multithreading(Board.getInstance().getPlayingBoard(), depth, !turn, -99999, 99999);
+            thread6.start();
+            Board.getInstance().undoMove(index);
+        }
+        index = 7;
+        if (Board.getInstance().isColNotFull(index)) {
+            Board.getInstance().makeMove(index, turn);
+            counter = 0;
+            Multithreading thread7 = new Multithreading(Board.getInstance().getPlayingBoard(), depth, !turn, -99999, 99999);
+            thread7.start();
+            Board.getInstance().undoMove(index);
+        }
+        long endTime = System.nanoTime();
+        long outTime = Math.round((endTime - startTime) / 1e+6);
+        System.out.println("Multithreading: " + outTime + " ms");
+    }
+
+    public int fetchMove(boolean print) {
+        counter = 0;
+        int winnerval;
+        int loserval;
+        if (Board.getInstance().getTurn()) {
+            winnerval = 99999;
+            loserval = -99999;
+        } else {
+            winnerval = -99999;
+            loserval = 99999;
+        }
+        boolean turn = Board.getInstance().getTurn();
+        ArrayList<Integer> evalList = new ArrayList<>(0);
+        ArrayList<Integer> psList = new ArrayList<>(0);
+        assessCols(turn, winnerval, loserval, evalList, psList);
+        if (print) System.out.println(evalList);
+        if (print) System.out.println(psList);
         if (playerType == 0) { // Human
             int column;
             Scanner scanner = new Scanner(System.in);
@@ -210,7 +278,7 @@ public class Player {
                 return 4;
             }
             int better = 0;
-            System.out.println("Winner Play Check");
+            if (print) System.out.println("Winner Play Check");
             if (col1val == winnerval) {
                 return 1;
             } else if (col2val == winnerval) {
@@ -226,7 +294,7 @@ public class Player {
             } else if (col7val == winnerval) {
                 return 7;
             }
-            System.out.println("Better Play Check");
+            if (print) System.out.println("Better Play Check");
             int[] bettercolarr = new int[7];
             if (Board.getInstance().getTurn()) {
                 if (col1val != 0) {
@@ -387,7 +455,7 @@ public class Player {
                 }
             }
             if (contains) {
-                System.out.println(Arrays.toString(bettercolarr));
+                if (print) System.out.println(Arrays.toString(bettercolarr));
                 while (true) {
                     int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
                     if (bettercolarr[column] != 0) {
@@ -395,7 +463,7 @@ public class Player {
                     }
                 }
             }
-            System.out.println("Draw Play Check");
+            if (print) System.out.println("Draw Play Check");
             ArrayList<Integer> cold = new ArrayList<>(0);
             if (col1val == 0) {
                 cold.add(1);
@@ -422,7 +490,7 @@ public class Player {
                 int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, cold.size());
                 return cold.get(column);
             }
-            System.out.println("Worse Play Check");
+            if (print) System.out.println("Worse Play Check");
             int worse = loserval;
             int[] worsecolarr = new int[7];
             if (Board.getInstance().getTurn()) {
@@ -518,7 +586,7 @@ public class Player {
                 }
             }
             if (contains) {
-                System.out.println(Arrays.toString(worsecolarr));
+                if (print) System.out.println(Arrays.toString(worsecolarr));
 //                int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
 //                return worsecolarr.get(column);
 //                return worsecolarr.get(worsecolarr.size() - 1);
@@ -528,7 +596,7 @@ public class Player {
                     }
                 }
             }
-            System.out.println("Random Play");
+            if (print) System.out.println("Random Play");
             while (true) {
                 int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(1, 7 + 1);
                 int[] playingBoard = Board.getInstance().getPlayingBoard();
@@ -542,13 +610,22 @@ public class Player {
         return -1;
     }
 
+    HashRep transpositionTable = new HashRep();
+
     private int search(int depth, boolean maximizingPlayer, int alpha, int beta) { // Transposition table
+        if (depth == this.depth) {
+            transpositionTable.clear();
+        }
         counter++;
 //        System.out.println("---------------\nc: " + counter + " | d: " + depth + " | mP: " + maximizingPlayer + " | a: " + alpha + " | b: " + beta);        Board.getInstance().printBoard();
         int evl = Board.getInstance().evaluate();
         if (depth == 0 || evl == 99999 || evl == -99999) {
             return evl / (this.depth - depth + 1);
 //            return evl;
+        }
+        int preS = transpositionTable.prevSearch(Board.getInstance().getPlayingBoard());
+        if (preS != 69420) {
+            return preS;
         }
 
         ArrayList<Integer> moves = Board.getInstance().legalMoves();
@@ -565,6 +642,7 @@ public class Player {
                     break;
                 }
             }
+            transpositionTable.add(Board.getInstance().getPlayingBoard(), maxEval);
             return maxEval;
         } else {
             int minEval = 99999;
@@ -578,6 +656,7 @@ public class Player {
                     break;
                 }
             }
+            transpositionTable.add(Board.getInstance().getPlayingBoard(), minEval);
             return minEval;
         }
     }

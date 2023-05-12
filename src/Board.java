@@ -50,31 +50,32 @@ public class Board {
 
     private boolean turn = true;
 
-    public void gameLoop(Player playerWhite, Player playerBlack) {
-        while (evaluate() != 99999 && evaluate() != -99999 || areFieldsLeft()) {
-            printBoard();
+    public void gameLoop(Player playerWhite, Player playerBlack, int[] board, boolean print) {
+        playingBoard = board;
+        while (areFieldsLeft() && evaluate() != 99999 && evaluate() != -99999) {
+            if (print) printBoard();
             if (turn) {
-                makeMove(playerWhite.fetchMove(), turn);
-                System.out.println("White made a move.");
+                makeMove(playerWhite.fetchMove(print), turn);
+                if (print) System.out.println("White made a move.");
                 turn = false;
             } else {
-                makeMove(playerBlack.fetchMove(), turn);
-                System.out.println("Black made a move.");
+                makeMove(playerBlack.fetchMove(print), turn);
+                if (print) System.out.println("Black made a move.");
                 turn = true;
             }
             if (evaluate() == 99999 || evaluate() == -99999) {
                 break;
             }
         }
-        printBoard();
+        if (print) printBoard();
         if (evaluate() == 99999) {
-            System.out.println("\nWhite won.");
+            if (print) System.out.println("\nWhite won.");
         } else if (evaluate() == -99999) {
-            System.out.println("\nBlack won.");
+            if (print) System.out.println("\nBlack won.");
         } else {
-            System.out.println("\nDraw.");
+            if (print) System.out.println("\nDraw.");
         }
-        System.out.println("Average ms time: " + Timer.averageMs());
+        if (print) System.out.println("Average ms time: " + Timer.averageMs());
     }
 
     protected void makeMove(int column, boolean turn) {
@@ -101,7 +102,6 @@ public class Board {
         }
     }
 
-    // [-xx-][--xx][xx--][x-x-][-x-x][x--x] ad 50 -> making good advancements
     protected int evaluate() {
         // winner eval
         final int winnerBlack = -99999;

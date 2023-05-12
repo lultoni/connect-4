@@ -28,7 +28,6 @@ public class Timer {
         } catch (ArithmeticException use) {
             return 0;
         }
-
     }
 
 }
