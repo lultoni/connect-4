@@ -117,161 +117,6 @@ public class Player {
         }
         System.out.println(evalList);
         System.out.println(psList);
-//        int printval = 0;
-//        if (col1val != 69420 && col1val != 0) {
-//            printval = col1val;
-//        }
-//        if (col2val != 69420 && col2val != 0) {
-//            if (printval == 0) {
-//                printval = col2val;
-//            } else if (printval > 0) {
-//                if (col2val < 0) {
-//                    if (-col2val > printval) {
-//                        printval = col2val;
-//                    }
-//                } else {
-//                    if (col2val > printval) {
-//                        printval = col2val;
-//                    }
-//                }
-//            } else {
-//                if (col2val > 0) {
-//                    if (col2val > -printval) {
-//                        printval = col2val;
-//                    }
-//                } else {
-//                    if (col2val < printval) {
-//                        printval = col2val;
-//                    }
-//                }
-//            }
-//        }
-//        if (col3val != 69420 && col3val != 0) {
-//            if (printval == 0) {
-//                printval = col3val;
-//            } else if (printval > 0) {
-//                if (col3val < 0) {
-//                    if (-col3val > printval) {
-//                        printval = col3val;
-//                    }
-//                } else {
-//                    if (col3val > printval) {
-//                        printval = col3val;
-//                    }
-//                }
-//            } else {
-//                if (col3val > 0) {
-//                    if (col3val > -printval) {
-//                        printval = col3val;
-//                    }
-//                } else {
-//                    if (col3val < printval) {
-//                        printval = col3val;
-//                    }
-//                }
-//            }
-//        }
-//        if (col4val != 69420 && col4val != 0) {
-//            if (printval == 0) {
-//                printval = col4val;
-//            } else if (printval > 0) {
-//                if (col4val < 0) {
-//                    if (-col4val > printval) {
-//                        printval = col4val;
-//                    }
-//                } else {
-//                    if (col4val > printval) {
-//                        printval = col4val;
-//                    }
-//                }
-//            } else {
-//                if (col4val > 0) {
-//                    if (col4val > -printval) {
-//                        printval = col4val;
-//                    }
-//                } else {
-//                    if (col4val < printval) {
-//                        printval = col4val;
-//                    }
-//                }
-//            }
-//        }
-//        if (col5val != 69420 && col5val != 0) {
-//            if (printval == 0) {
-//                printval = col5val;
-//            } else if (printval > 0) {
-//                if (col5val < 0) {
-//                    if (-col5val > printval) {
-//                        printval = col5val;
-//                    }
-//                } else {
-//                    if (col5val > printval) {
-//                        printval = col5val;
-//                    }
-//                }
-//            } else {
-//                if (col5val > 0) {
-//                    if (col5val > -printval) {
-//                        printval = col5val;
-//                    }
-//                } else {
-//                    if (col5val < printval) {
-//                        printval = col5val;
-//                    }
-//                }
-//            }
-//        }
-//        if (col6val != 69420 && col6val != 0) {
-//            if (printval == 0) {
-//                printval = col6val;
-//            } else if (printval > 0) {
-//                if (col6val < 0) {
-//                    if (-col6val > printval) {
-//                        printval = col6val;
-//                    }
-//                } else {
-//                    if (col6val > printval) {
-//                        printval = col6val;
-//                    }
-//                }
-//            } else {
-//                if (col6val > 0) {
-//                    if (col6val > -printval) {
-//                        printval = col6val;
-//                    }
-//                } else {
-//                    if (col6val < printval) {
-//                        printval = col6val;
-//                    }
-//                }
-//            }
-//        }
-//        if (col7val != 69420 && col7val != 0) {
-//            if (printval == 0) {
-//                printval = col7val;
-//            } else if (printval > 0) {
-//                if (col7val < 0) {
-//                    if (-col7val > printval) {
-//                        printval = col7val;
-//                    }
-//                } else {
-//                    if (col7val > printval) {
-//                        printval = col7val;
-//                    }
-//                }
-//            } else {
-//                if (col7val > 0) {
-//                    if (col7val > -printval) {
-//                        printval = col7val;
-//                    }
-//                } else {
-//                    if (col7val < printval) {
-//                        printval = col7val;
-//                    }
-//                }
-//            }
-//        }
-//        System.out.println("Eval: " + printval);
         if (playerType == 0) { // Human
             int column;
             Scanner scanner = new Scanner(System.in);
@@ -330,128 +175,154 @@ public class Player {
             System.out.println("Better Play Check");
             int[] bettercolarr = new int[7];
             if (Board.getInstance().getTurn()) {
-                if (col1val > better && col1val != 69420) {
-                    better = col1val;
-                    bettercolarr[0] = 1;
-                } else {
-                    bettercolarr[0] = 1;
+                if (col1val != 0) {
+                    if (col1val > better && col1val != 69420) {
+                        better = col1val;
+                        bettercolarr[0] = 1;
+                    }
                 }
-                if (col2val > better && col2val != 69420) {
-                    better = col2val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 2;
-                } else if (col2val == better) {
-                    bettercolarr[1] = 2;
+                if (col2val != 0) {
+                    if (col2val > better && col2val != 69420) {
+                        better = col2val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 2;
+                    } else if (col2val == better) {
+                        bettercolarr[1] = 2;
+                    }
                 }
-                if (col3val > better && col3val != 69420) {
-                    better = col3val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 3;
-                } else if (col3val == better) {
-                    bettercolarr[2] = 3;
+                if (col3val != 0) {
+                    if (col3val > better && col3val != 69420) {
+                        better = col3val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 3;
+                    } else if (col3val == better) {
+                        bettercolarr[2] = 3;
+                    }
                 }
-                if (col4val > better && col4val != 69420) {
-                    better = col4val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 4;
-                } else if (col4val == better) {
-                    bettercolarr[3] = 4;
+                if (col4val != 0) {
+                    if (col4val > better && col4val != 69420) {
+                        better = col4val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 4;
+                    } else if (col4val == better) {
+                        bettercolarr[3] = 4;
+                    }
                 }
-                if (col5val > better && col5val != 69420) {
-                    better = col5val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 0;
-                    bettercolarr[4] = 5;
-                } else if (col5val == better) {
-                    bettercolarr[4] = 5;
+                if (col5val != 0) {
+                    if (col5val > better && col5val != 69420) {
+                        better = col5val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 0;
+                        bettercolarr[4] = 5;
+                    } else if (col5val == better) {
+                        bettercolarr[4] = 5;
+                    }
                 }
-                if (col6val > better && col6val != 69420) {
-                    better = col6val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 0;
-                    bettercolarr[4] = 0;
-                    bettercolarr[5] = 6;
-                } else if (col6val == better) {
-                    bettercolarr[5] = 6;
+                if (col6val != 0) {
+                    if (col6val > better && col6val != 69420) {
+                        better = col6val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 0;
+                        bettercolarr[4] = 0;
+                        bettercolarr[5] = 6;
+                    } else if (col6val == better) {
+                        bettercolarr[5] = 6;
+                    }
                 }
-                if (col7val > better && col7val != 69420) {
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 0;
-                    bettercolarr[4] = 0;
-                    bettercolarr[5] = 0;
-                    bettercolarr[6] = 7;
-                } else if (col7val == better) {
-                    bettercolarr[6] = 7;
+                if (col7val != 0) {
+                    if (col7val > better && col7val != 69420) {
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 0;
+                        bettercolarr[4] = 0;
+                        bettercolarr[5] = 0;
+                        bettercolarr[6] = 7;
+                    } else if (col7val == better) {
+                        bettercolarr[6] = 7;
+                    }
                 }
             } else {
-                if (col1val < better) {
-                    better = col1val;
-                    bettercolarr[0] = 1;
+                if (col1val != 0) {
+                    if (col1val < better) {
+                        better = col1val;
+                        bettercolarr[0] = 1;
+                    }
                 }
-                if (col2val < better) {
-                    better = col2val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 2;
-                } else if (col2val == better) {
-                    bettercolarr[1] = 2;
+                if (col2val != 0) {
+                    if (col2val < better) {
+                        better = col2val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 2;
+                    } else if (col2val == better) {
+                        bettercolarr[1] = 2;
+                    }
                 }
-                if (col3val < better) {
-                    better = col3val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 3;
-                } else if (col3val == better) {
-                    bettercolarr[2] = 3;
+                if (col3val != 0) {
+                    if (col3val < better) {
+                        better = col3val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 3;
+                    } else if (col3val == better) {
+                        bettercolarr[2] = 3;
+                    }
                 }
-                if (col4val < better) {
-                    better = col4val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 4;
-                } else if (col4val == better) {
-                    bettercolarr[3] = 4;
+                if (col4val != 0) {
+                    if (col4val < better) {
+                        better = col4val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 4;
+                    } else if (col4val == better) {
+                        bettercolarr[3] = 4;
+                    }
                 }
-                if (col5val < better) {
-                    better = col5val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 0;
-                    bettercolarr[4] = 5;
-                } else if (col5val == better) {
-                    bettercolarr[4] = 5;
+                if (col5val != 0) {
+                    if (col5val < better) {
+                        better = col5val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 0;
+                        bettercolarr[4] = 5;
+                    } else if (col5val == better) {
+                        bettercolarr[4] = 5;
+                    }
                 }
-                if (col6val < better) {
-                    better = col6val;
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 0;
-                    bettercolarr[4] = 0;
-                    bettercolarr[5] = 6;
-                } else if (col6val == better) {
-                    bettercolarr[5] = 6;
+                if (col6val != 0) {
+                    if (col6val < better) {
+                        better = col6val;
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 0;
+                        bettercolarr[4] = 0;
+                        bettercolarr[5] = 6;
+                    } else if (col6val == better) {
+                        bettercolarr[5] = 6;
+                    }
                 }
-                if (col7val < better) {
-                    bettercolarr[0] = 0;
-                    bettercolarr[1] = 0;
-                    bettercolarr[2] = 0;
-                    bettercolarr[3] = 0;
-                    bettercolarr[4] = 0;
-                    bettercolarr[5] = 0;
-                    bettercolarr[6] = 7;
-                } else if (col7val == better) {
-                    bettercolarr[6] = 7;
+                if (col7val != 0) {
+                    if (col7val < better) {
+                        bettercolarr[0] = 0;
+                        bettercolarr[1] = 0;
+                        bettercolarr[2] = 0;
+                        bettercolarr[3] = 0;
+                        bettercolarr[4] = 0;
+                        bettercolarr[5] = 0;
+                        bettercolarr[6] = 7;
+                    } else if (col7val == better) {
+                        bettercolarr[6] = 7;
+                    }
                 }
             }
             boolean contains = false;
@@ -617,21 +488,17 @@ public class Player {
         return -1;
     }
 
-    private int search(int depth, boolean maximizingPlayer, int alpha, int beta) { // Move-ordering, transposition table
+    private int search(int depth, boolean maximizingPlayer, int alpha, int beta) { // Transposition table
         counter++;
-//        System.out.println("------\ncounter: " +counter);
-//        Board.getInstance().printBoard();
+//        System.out.println("---------------\nc: " + counter + " | d: " + depth + " | mP: " + maximizingPlayer + " | a: " + alpha + " | b: " + beta);        Board.getInstance().printBoard();
         int evl = Board.getInstance().evaluate();
         if (depth == 0 || evl == 99999 || evl == -99999) {
             return evl / (this.depth - depth + 1);
-//            if ((Board.getInstance().evaluate() == 99999 || Board.getInstance().evaluate() == -99999) && depth != 0) {
-//                System.out.println("c: " + counter + " | depth: " + depth + " | mP: " + maximizingPlayer + " | a: " + alpha + " | b: " + beta);
-//            }
 //            return evl;
         }
 
         ArrayList<Integer> moves = Board.getInstance().legalMoves();
-//        order(moves, maximizingPlayer);
+//        order(moves);
         if (maximizingPlayer) {
             int maxEval = -99999;
             for (int m: moves) {
@@ -661,30 +528,67 @@ public class Player {
         }
     }
 
-    private void order(ArrayList<Integer> moves, boolean turn) {
-        ArrayList<Integer> scores = new ArrayList<Integer>(0);
-        for (int m: moves) {
-            int score = 0;
-            // Find a way to rate the move
-            // Maybe eval func with this move filled
-            Board.getInstance().makeMove(m, turn);
-            score = Board.getInstance().evaluate();
-            Board.getInstance().undoMove(m);
-            scores.add(score);
-        }
-
-        for (int i = 0; i < scores.size() - 1; i++) {
-            for (int j = i + 1; j > 0; j--) {
-                int swapIndex = j - 1;
-                if (Math.abs(scores.get(swapIndex)) < Math.abs(scores.get(j))) {
-                    int c;
-                    c = moves.get(j);
-                    moves.set(j, moves.get(swapIndex));
-                    moves.set(swapIndex, c);
-                    c = scores.get(j);
-                    scores.set(j, scores.get(swapIndex));
-                    scores.set(swapIndex, c);
-                }
+    private void order(ArrayList<Integer> moves) {
+        switch (moves.size()) {
+            case 7 -> {
+                int p1 = moves.get(0);
+                int p2 = moves.get(1);
+                int p3 = moves.get(2);
+                int p4 = moves.get(3);
+                int p5 = moves.get(4);
+                int p6 = moves.get(5);
+                int p7 = moves.get(6);
+                moves.set(0, p4);
+                moves.set(1, p3);
+                moves.set(2, p5);
+                moves.set(3, p2);
+                moves.set(4, p6);
+                moves.set(5, p1);
+                moves.set(6, p7);
+            }
+            case 6 -> {
+                int p1 = moves.get(0);
+                int p2 = moves.get(1);
+                int p3 = moves.get(2);
+                int p4 = moves.get(3);
+                int p5 = moves.get(4);
+                int p6 = moves.get(5);
+                moves.set(0, p4);
+                moves.set(1, p3);
+                moves.set(2, p5);
+                moves.set(3, p2);
+                moves.set(4, p6);
+                moves.set(5, p1);
+            }
+            case 5 -> {
+                int p1 = moves.get(0);
+                int p2 = moves.get(1);
+                int p3 = moves.get(2);
+                int p4 = moves.get(3);
+                int p5 = moves.get(4);
+                moves.set(0, p3);
+                moves.set(1, p4);
+                moves.set(2, p2);
+                moves.set(3, p5);
+                moves.set(4, p1);
+            }
+            case 4 -> {
+                int p1 = moves.get(0);
+                int p2 = moves.get(1);
+                int p3 = moves.get(2);
+                int p4 = moves.get(3);
+                moves.set(0, p2);
+                moves.set(1, p3);
+                moves.set(2, p4);
+                moves.set(3, p1);
+            }
+            case 3 -> {
+                int p1 = moves.get(0);
+                int p2 = moves.get(1);
+                int p3 = moves.get(2);
+                moves.set(0, p2);
+                moves.set(1, p3);
+                moves.set(2, p1);
             }
         }
     }

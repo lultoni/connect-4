@@ -13,8 +13,8 @@ public class Main {
         Board.getInstance().loadPosition(board);
         int pt1 = 2;
         int pt2 = 0;
-        int depth = 10;
-        Board.getInstance().gameLoop(new Player(pt1, depth), new Player(pt2, depth));
+        int depth = 5;
+        Board.getInstance().gameLoop(new Player(pt1, depth - 1), new Player(pt2, depth - 1));
 
     }
 
