@@ -295,4 +295,20 @@ public class Board {
         playingBoard = board;
     }
 
+    public int winnerAfterMove(boolean turn, int winnerval, int loserval) {
+        for (int i = 1; i <= 7; i++) {
+            if (isColNotFull(i)) {
+                makeMove(i, !turn);
+                int eval = evaluate();
+                undoMove(i);
+                if (eval == winnerval) {
+                    return  winnerval;
+                } else if (eval == loserval) {
+                    return loserval;
+                }
+            }
+        }
+        return 0;
+    }
+
 }

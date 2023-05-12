@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Player {
@@ -43,7 +44,15 @@ public class Player {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(1, turn);
-            col1val = search(depth, turn, -99999, 99999);
+            counter = 0;
+            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            if (comp == loserval) {
+                col1val = loserval;
+            } else if (comp == winnerval) {
+                col1val = winnerval;
+            } else {
+                col1val = search(depth, !turn, -99999, 99999);
+            }
             evalList.add(col1val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -54,7 +63,14 @@ public class Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(2, turn);
             counter = 0;
-            col2val = search(depth, turn, -99999, 99999);
+            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            if (comp == loserval) {
+                col2val = loserval;
+            } else if (comp == winnerval) {
+                col2val = winnerval;
+            } else {
+                col2val = search(depth, !turn, -99999, 99999);
+            }
             evalList.add(col2val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -65,7 +81,14 @@ public class Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(3, turn);
             counter = 0;
-            col3val = search(depth, turn, -99999, 99999);
+            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            if (comp == loserval) {
+                col3val = loserval;
+            } else if (comp == winnerval) {
+                col3val = winnerval;
+            } else {
+                col3val = search(depth, !turn, -99999, 99999);
+            }
             evalList.add(col3val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -76,7 +99,14 @@ public class Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(4, turn);
             counter = 0;
-            col4val = search(depth, turn, -99999, 99999);
+            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            if (comp == loserval) {
+                col4val = loserval;
+            } else if (comp == winnerval) {
+                col4val = winnerval;
+            } else {
+                col4val = search(depth, !turn, -99999, 99999);
+            }
             evalList.add(col4val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -87,7 +117,14 @@ public class Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(5, turn);
             counter = 0;
-            col5val = search(depth, turn, -99999, 99999);
+            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            if (comp == loserval) {
+                col5val = loserval;
+            } else if (comp == winnerval) {
+                col5val = winnerval;
+            } else {
+                col5val = search(depth, !turn, -99999, 99999);
+            }
             evalList.add(col5val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -98,7 +135,14 @@ public class Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(6, turn);
             counter = 0;
-            col6val = search(depth, turn, -99999, 99999);
+            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            if (comp == loserval) {
+                col6val = loserval;
+            } else if (comp == winnerval) {
+                col6val = winnerval;
+            } else {
+                col6val = search(depth, !turn, -99999, 99999);
+            }
             evalList.add(col6val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -109,7 +153,14 @@ public class Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(7, turn);
             counter = 0;
-            col7val = search(depth, turn, -99999, 99999);
+            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            if (comp == loserval) {
+                col7val = loserval;
+            } else if (comp == winnerval) {
+                col7val = winnerval;
+            } else {
+                col7val = search(depth, !turn, -99999, 99999);
+            }
             evalList.add(col7val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -155,6 +206,9 @@ public class Player {
             }
         }
         else if (playerType == 2) { // Minimax
+            if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[42])) {
+                return 4;
+            }
             int better = 0;
             System.out.println("Winner Play Check");
             if (col1val == winnerval) {
@@ -502,7 +556,7 @@ public class Player {
         if (maximizingPlayer) {
             int maxEval = -99999;
             for (int m: moves) {
-                Board.getInstance().makeMove(m, false);
+                Board.getInstance().makeMove(m, true);
                 int eval = search(depth - 1, false, alpha, beta);
                 Board.getInstance().undoMove(m);
                 maxEval = Math.max(maxEval, eval);
@@ -515,7 +569,7 @@ public class Player {
         } else {
             int minEval = 99999;
             for (int m: moves) {
-                Board.getInstance().makeMove(m, true);
+                Board.getInstance().makeMove(m, false);
                 int eval = search(depth - 1, true, alpha, beta);
                 Board.getInstance().undoMove(m);
                 minEval = Math.min(minEval, eval);
