@@ -30,19 +30,22 @@ public class Player {
         int winnerval;
         int loserval;
         if (Board.getInstance().getTurn()) {
-            winnerval = 9999;
-            loserval = -9999;
+            winnerval = 99999;
+            loserval = -99999;
         } else {
-            winnerval = -9999;
-            loserval = 9999;
+            winnerval = -99999;
+            loserval = 99999;
         }
         boolean turn = Board.getInstance().getTurn();
+        ArrayList<Integer> evalList = new ArrayList<>(0);
+        ArrayList<Integer> psList = new ArrayList<>(0);
         if (Board.getInstance().isColNotFull(1)) {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(1, turn);
-            col1val = search(depth, Board.getInstance().getTurn(), loserval, winnerval);
-                System.out.println("1:"+col1val);
+            col1val = search(depth, turn, -99999, 99999);
+            evalList.add(col1val);
+            psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
@@ -50,8 +53,10 @@ public class Player {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(2, turn);
-            col2val = search(depth, Board.getInstance().getTurn(), loserval, winnerval);
-                System.out.println("2:"+col2val);
+            counter = 0;
+            col2val = search(depth, turn, -99999, 99999);
+            evalList.add(col2val);
+            psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
@@ -59,8 +64,10 @@ public class Player {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(3, turn);
-            col3val = search(depth, Board.getInstance().getTurn(), loserval, winnerval);
-                System.out.println("3:"+col3val);
+            counter = 0;
+            col3val = search(depth, turn, -99999, 99999);
+            evalList.add(col3val);
+            psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
@@ -68,8 +75,10 @@ public class Player {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(4, turn);
-            col4val = search(depth, Board.getInstance().getTurn(), loserval, winnerval);
-                System.out.println("4:"+col4val);
+            counter = 0;
+            col4val = search(depth, turn, -99999, 99999);
+            evalList.add(col4val);
+            psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
@@ -77,8 +86,10 @@ public class Player {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(5, turn);
-            col5val = search(depth, Board.getInstance().getTurn(), loserval, winnerval);
-                System.out.println("5:"+col5val);
+            counter = 0;
+            col5val = search(depth, turn, -99999, 99999);
+            evalList.add(col5val);
+            psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
@@ -86,8 +97,10 @@ public class Player {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(6, turn);
-            col6val = search(depth, Board.getInstance().getTurn(), loserval, winnerval);
-                System.out.println("6:"+col6val);
+            counter = 0;
+            col6val = search(depth, turn, -99999, 99999);
+            evalList.add(col6val);
+            psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
@@ -95,166 +108,170 @@ public class Player {
             Timer.start();
             Board.getInstance().createBB();
             Board.getInstance().makeMove(7, turn);
-            col7val = search(depth, Board.getInstance().getTurn(), loserval, winnerval);
-                System.out.println("7:"+col7val);
+            counter = 0;
+            col7val = search(depth, turn, -99999, 99999);
+            evalList.add(col7val);
+            psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
-        int printval = 0;
-        if (col1val != 69420 && col1val != 0) {
-            printval = col1val;
-        }
-        if (col2val != 69420 && col2val != 0) {
-            if (printval == 0) {
-                printval = col2val;
-            } else if (printval > 0) {
-                if (col2val < 0) {
-                    if (-col2val > printval) {
-                        printval = col2val;
-                    }
-                } else {
-                    if (col2val > printval) {
-                        printval = col2val;
-                    }
-                }
-            } else {
-                if (col2val > 0) {
-                    if (col2val > -printval) {
-                        printval = col2val;
-                    }
-                } else {
-                    if (col2val < printval) {
-                        printval = col2val;
-                    }
-                }
-            }
-        }
-        if (col3val != 69420 && col3val != 0) {
-            if (printval == 0) {
-                printval = col3val;
-            } else if (printval > 0) {
-                if (col3val < 0) {
-                    if (-col3val > printval) {
-                        printval = col3val;
-                    }
-                } else {
-                    if (col3val > printval) {
-                        printval = col3val;
-                    }
-                }
-            } else {
-                if (col3val > 0) {
-                    if (col3val > -printval) {
-                        printval = col3val;
-                    }
-                } else {
-                    if (col3val < printval) {
-                        printval = col3val;
-                    }
-                }
-            }
-        }
-        if (col4val != 69420 && col4val != 0) {
-            if (printval == 0) {
-                printval = col4val;
-            } else if (printval > 0) {
-                if (col4val < 0) {
-                    if (-col4val > printval) {
-                        printval = col4val;
-                    }
-                } else {
-                    if (col4val > printval) {
-                        printval = col4val;
-                    }
-                }
-            } else {
-                if (col4val > 0) {
-                    if (col4val > -printval) {
-                        printval = col4val;
-                    }
-                } else {
-                    if (col4val < printval) {
-                        printval = col4val;
-                    }
-                }
-            }
-        }
-        if (col5val != 69420 && col5val != 0) {
-            if (printval == 0) {
-                printval = col5val;
-            } else if (printval > 0) {
-                if (col5val < 0) {
-                    if (-col5val > printval) {
-                        printval = col5val;
-                    }
-                } else {
-                    if (col5val > printval) {
-                        printval = col5val;
-                    }
-                }
-            } else {
-                if (col5val > 0) {
-                    if (col5val > -printval) {
-                        printval = col5val;
-                    }
-                } else {
-                    if (col5val < printval) {
-                        printval = col5val;
-                    }
-                }
-            }
-        }
-        if (col6val != 69420 && col6val != 0) {
-            if (printval == 0) {
-                printval = col6val;
-            } else if (printval > 0) {
-                if (col6val < 0) {
-                    if (-col6val > printval) {
-                        printval = col6val;
-                    }
-                } else {
-                    if (col6val > printval) {
-                        printval = col6val;
-                    }
-                }
-            } else {
-                if (col6val > 0) {
-                    if (col6val > -printval) {
-                        printval = col6val;
-                    }
-                } else {
-                    if (col6val < printval) {
-                        printval = col6val;
-                    }
-                }
-            }
-        }
-        if (col7val != 69420 && col7val != 0) {
-            if (printval == 0) {
-                printval = col7val;
-            } else if (printval > 0) {
-                if (col7val < 0) {
-                    if (-col7val > printval) {
-                        printval = col7val;
-                    }
-                } else {
-                    if (col7val > printval) {
-                        printval = col7val;
-                    }
-                }
-            } else {
-                if (col7val > 0) {
-                    if (col7val > -printval) {
-                        printval = col7val;
-                    }
-                } else {
-                    if (col7val < printval) {
-                        printval = col7val;
-                    }
-                }
-            }
-        }
-        System.out.println("Eval: " + printval);
+        System.out.println(evalList);
+        System.out.println(psList);
+//        int printval = 0;
+//        if (col1val != 69420 && col1val != 0) {
+//            printval = col1val;
+//        }
+//        if (col2val != 69420 && col2val != 0) {
+//            if (printval == 0) {
+//                printval = col2val;
+//            } else if (printval > 0) {
+//                if (col2val < 0) {
+//                    if (-col2val > printval) {
+//                        printval = col2val;
+//                    }
+//                } else {
+//                    if (col2val > printval) {
+//                        printval = col2val;
+//                    }
+//                }
+//            } else {
+//                if (col2val > 0) {
+//                    if (col2val > -printval) {
+//                        printval = col2val;
+//                    }
+//                } else {
+//                    if (col2val < printval) {
+//                        printval = col2val;
+//                    }
+//                }
+//            }
+//        }
+//        if (col3val != 69420 && col3val != 0) {
+//            if (printval == 0) {
+//                printval = col3val;
+//            } else if (printval > 0) {
+//                if (col3val < 0) {
+//                    if (-col3val > printval) {
+//                        printval = col3val;
+//                    }
+//                } else {
+//                    if (col3val > printval) {
+//                        printval = col3val;
+//                    }
+//                }
+//            } else {
+//                if (col3val > 0) {
+//                    if (col3val > -printval) {
+//                        printval = col3val;
+//                    }
+//                } else {
+//                    if (col3val < printval) {
+//                        printval = col3val;
+//                    }
+//                }
+//            }
+//        }
+//        if (col4val != 69420 && col4val != 0) {
+//            if (printval == 0) {
+//                printval = col4val;
+//            } else if (printval > 0) {
+//                if (col4val < 0) {
+//                    if (-col4val > printval) {
+//                        printval = col4val;
+//                    }
+//                } else {
+//                    if (col4val > printval) {
+//                        printval = col4val;
+//                    }
+//                }
+//            } else {
+//                if (col4val > 0) {
+//                    if (col4val > -printval) {
+//                        printval = col4val;
+//                    }
+//                } else {
+//                    if (col4val < printval) {
+//                        printval = col4val;
+//                    }
+//                }
+//            }
+//        }
+//        if (col5val != 69420 && col5val != 0) {
+//            if (printval == 0) {
+//                printval = col5val;
+//            } else if (printval > 0) {
+//                if (col5val < 0) {
+//                    if (-col5val > printval) {
+//                        printval = col5val;
+//                    }
+//                } else {
+//                    if (col5val > printval) {
+//                        printval = col5val;
+//                    }
+//                }
+//            } else {
+//                if (col5val > 0) {
+//                    if (col5val > -printval) {
+//                        printval = col5val;
+//                    }
+//                } else {
+//                    if (col5val < printval) {
+//                        printval = col5val;
+//                    }
+//                }
+//            }
+//        }
+//        if (col6val != 69420 && col6val != 0) {
+//            if (printval == 0) {
+//                printval = col6val;
+//            } else if (printval > 0) {
+//                if (col6val < 0) {
+//                    if (-col6val > printval) {
+//                        printval = col6val;
+//                    }
+//                } else {
+//                    if (col6val > printval) {
+//                        printval = col6val;
+//                    }
+//                }
+//            } else {
+//                if (col6val > 0) {
+//                    if (col6val > -printval) {
+//                        printval = col6val;
+//                    }
+//                } else {
+//                    if (col6val < printval) {
+//                        printval = col6val;
+//                    }
+//                }
+//            }
+//        }
+//        if (col7val != 69420 && col7val != 0) {
+//            if (printval == 0) {
+//                printval = col7val;
+//            } else if (printval > 0) {
+//                if (col7val < 0) {
+//                    if (-col7val > printval) {
+//                        printval = col7val;
+//                    }
+//                } else {
+//                    if (col7val > printval) {
+//                        printval = col7val;
+//                    }
+//                }
+//            } else {
+//                if (col7val > 0) {
+//                    if (col7val > -printval) {
+//                        printval = col7val;
+//                    }
+//                } else {
+//                    if (col7val < printval) {
+//                        printval = col7val;
+//                    }
+//                }
+//            }
+//        }
+//        System.out.println("Eval: " + printval);
         if (playerType == 0) { // Human
             int column;
             Scanner scanner = new Scanner(System.in);
@@ -316,28 +333,63 @@ public class Player {
                 if (col1val > better && col1val != 69420) {
                     better = col1val;
                     bettercolarr[0] = 1;
+                } else {
+                    bettercolarr[0] = 1;
                 }
                 if (col2val > better && col2val != 69420) {
                     better = col2val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 2;
+                } else if (col2val == better) {
                     bettercolarr[1] = 2;
                 }
                 if (col3val > better && col3val != 69420) {
-                    better = col2val;
+                    better = col3val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 3;
+                } else if (col3val == better) {
                     bettercolarr[2] = 3;
                 }
                 if (col4val > better && col4val != 69420) {
                     better = col4val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 4;
+                } else if (col4val == better) {
                     bettercolarr[3] = 4;
                 }
                 if (col5val > better && col5val != 69420) {
                     better = col5val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 0;
+                    bettercolarr[4] = 5;
+                } else if (col5val == better) {
                     bettercolarr[4] = 5;
                 }
                 if (col6val > better && col6val != 69420) {
                     better = col6val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 0;
+                    bettercolarr[4] = 0;
+                    bettercolarr[5] = 6;
+                } else if (col6val == better) {
                     bettercolarr[5] = 6;
                 }
                 if (col7val > better && col7val != 69420) {
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 0;
+                    bettercolarr[4] = 0;
+                    bettercolarr[5] = 0;
+                    bettercolarr[6] = 7;
+                } else if (col7val == better) {
                     bettercolarr[6] = 7;
                 }
             } else {
@@ -347,25 +399,58 @@ public class Player {
                 }
                 if (col2val < better) {
                     better = col2val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 2;
+                } else if (col2val == better) {
                     bettercolarr[1] = 2;
                 }
                 if (col3val < better) {
-                    better = col2val;
+                    better = col3val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 3;
+                } else if (col3val == better) {
                     bettercolarr[2] = 3;
                 }
                 if (col4val < better) {
                     better = col4val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 4;
+                } else if (col4val == better) {
                     bettercolarr[3] = 4;
                 }
                 if (col5val < better) {
                     better = col5val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 0;
+                    bettercolarr[4] = 5;
+                } else if (col5val == better) {
                     bettercolarr[4] = 5;
                 }
                 if (col6val < better) {
                     better = col6val;
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 0;
+                    bettercolarr[4] = 0;
+                    bettercolarr[5] = 6;
+                } else if (col6val == better) {
                     bettercolarr[5] = 6;
                 }
                 if (col7val < better) {
+                    bettercolarr[0] = 0;
+                    bettercolarr[1] = 0;
+                    bettercolarr[2] = 0;
+                    bettercolarr[3] = 0;
+                    bettercolarr[4] = 0;
+                    bettercolarr[5] = 0;
+                    bettercolarr[6] = 7;
+                } else if (col7val == better) {
                     bettercolarr[6] = 7;
                 }
             }
@@ -378,12 +463,10 @@ public class Player {
             }
             if (contains) {
                 System.out.println(Arrays.toString(bettercolarr));
-//                int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
-//                return bettercolarr.get(column);
-//                return bettercolarr.get(bettercolarr.size() - 1);
-                for (int i = 6; i >= 0; i--) {
-                    if (bettercolarr[i] != 0) {
-                        return i + 1;
+                while (true) {
+                    int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
+                    if (bettercolarr[column] != 0) {
+                        return column + 1;
                     }
                 }
             }
@@ -536,66 +619,71 @@ public class Player {
 
     private int search(int depth, boolean maximizingPlayer, int alpha, int beta) { // Move-ordering, transposition table
         counter++;
+//        System.out.println("------\ncounter: " +counter);
+//        Board.getInstance().printBoard();
         int evl = Board.getInstance().evaluate();
-        if (depth == 0 || evl == 9999 || evl == -9999) {
-//            return Board.getInstance().evaluate() / (this.depth - depth + 1);
-//            if ((Board.getInstance().evaluate() == 9999 || Board.getInstance().evaluate() == -9999) && depth != 0) {
+        if (depth == 0 || evl == 99999 || evl == -99999) {
+            return evl / (this.depth - depth + 1);
+//            if ((Board.getInstance().evaluate() == 99999 || Board.getInstance().evaluate() == -99999) && depth != 0) {
 //                System.out.println("c: " + counter + " | depth: " + depth + " | mP: " + maximizingPlayer + " | a: " + alpha + " | b: " + beta);
 //            }
-            return evl;
+//            return evl;
         }
 
         ArrayList<Integer> moves = Board.getInstance().legalMoves();
-//        order(moves);
+//        order(moves, maximizingPlayer);
         if (maximizingPlayer) {
-            int maxEval = -9999;
+            int maxEval = -99999;
             for (int m: moves) {
-                Board.getInstance().makeMove(m, true);
+                Board.getInstance().makeMove(m, false);
                 int eval = search(depth - 1, false, alpha, beta);
                 Board.getInstance().undoMove(m);
                 maxEval = Math.max(maxEval, eval);
                 alpha = Math.max(alpha, eval);
-//                if (beta <= alpha) {
-//                    break;
-//                }
+                if (beta <= alpha) {
+                    break;
+                }
             }
             return maxEval;
         } else {
-            int minEval = 9999;
+            int minEval = 99999;
             for (int m: moves) {
-                Board.getInstance().makeMove(m, false);
+                Board.getInstance().makeMove(m, true);
                 int eval = search(depth - 1, true, alpha, beta);
                 Board.getInstance().undoMove(m);
                 minEval = Math.min(minEval, eval);
                 beta = Math.min(beta, eval);
-//                if (beta <= alpha) {
-//                    break;
-//                }
+                if (beta <= alpha) {
+                    break;
+                }
             }
             return minEval;
         }
     }
 
-    private void order(int[] moves) {
-        int[] scores = new int[7];
-        for (int i = 0; i < 7; i++) {
+    private void order(ArrayList<Integer> moves, boolean turn) {
+        ArrayList<Integer> scores = new ArrayList<Integer>(0);
+        for (int m: moves) {
             int score = 0;
             // Find a way to rate the move
             // Maybe eval func with this move filled
-            scores[i] = score;
+            Board.getInstance().makeMove(m, turn);
+            score = Board.getInstance().evaluate();
+            Board.getInstance().undoMove(m);
+            scores.add(score);
         }
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < scores.size() - 1; i++) {
             for (int j = i + 1; j > 0; j--) {
                 int swapIndex = j - 1;
-                if (scores[swapIndex] < scores[j]) {
+                if (Math.abs(scores.get(swapIndex)) < Math.abs(scores.get(j))) {
                     int c;
-                    c = moves[j];
-                    moves[j] = moves[swapIndex];
-                    moves[swapIndex] = c;
-                    c = scores[j];
-                    scores[j] = scores[swapIndex];
-                    scores[swapIndex] = c;
+                    c = moves.get(j);
+                    moves.set(j, moves.get(swapIndex));
+                    moves.set(swapIndex, c);
+                    c = scores.get(j);
+                    scores.set(j, scores.get(swapIndex));
+                    scores.set(swapIndex, c);
                 }
             }
         }

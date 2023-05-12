@@ -51,7 +51,7 @@ public class Board {
     private boolean turn = true;
 
     public void gameLoop(Player playerWhite, Player playerBlack) {
-        while (evaluate() != 9999 && evaluate() != -9999 || areFieldsLeft()) {
+        while (evaluate() != 99999 && evaluate() != -99999 || areFieldsLeft()) {
             printBoard();
             if (turn) {
                 makeMove(playerWhite.fetchMove(), turn);
@@ -62,14 +62,14 @@ public class Board {
                 System.out.println("Black made a move.");
                 turn = true;
             }
-            if (evaluate() == 9999 || evaluate() == -9999) {
+            if (evaluate() == 99999 || evaluate() == -99999) {
                 break;
             }
         }
         printBoard();
-        if (evaluate() == 9999) {
+        if (evaluate() == 99999) {
             System.out.println("\nWhite won.");
-        } else if (evaluate() == -9999) {
+        } else if (evaluate() == -99999) {
             System.out.println("\nBlack won.");
         } else {
             System.out.println("\nDraw.");
@@ -103,11 +103,9 @@ public class Board {
 
     // [-xx-][--xx][xx--][x-x-][-x-x][x--x] ad 50 -> making good advancements
     protected int evaluate() {
-        System.out.println("-----");
-        printBoard();
         // winner eval
-        final int winnerBlack = -9999;
-        final int winnerWhite =  9999;
+        final int winnerBlack = -99999;
+        final int winnerWhite =  99999;
         int advantage = 0;
         // Check for horizontal winner
         for (int i = 0; i < 6; i++) {
@@ -291,6 +289,10 @@ public class Board {
 
     public boolean isColNotFull(int col) {
         return playingBoard[col - 1] == 0;
+    }
+
+    public void loadPosition(int[] board) {
+        playingBoard = board;
     }
 
 }
