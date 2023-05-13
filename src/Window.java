@@ -20,7 +20,7 @@ public class Window implements MouseListener {
         JSlider dsl = new JSlider();
         dsl.setBounds(210, 450, 300, 10);
         dsl.setMinimum(0);
-        dsl.setMaximum(15);
+        dsl.setMaximum(20);
         JPanel pn = new JPanel() {
             @Override
             public void paint(Graphics g) {
@@ -28,7 +28,7 @@ public class Window implements MouseListener {
                 g.drawString("Connect Four by CallMeLee", 90, 100);
                 g.setFont(new Font( "SansSerif", Font.BOLD, 20));
                 g.drawString("0", 200, 450);
-                g.drawString("15", 520, 450);
+                g.drawString("20", 520, 450);
                 String dsv = String.valueOf(dsl.getValue());
                 g.drawString(dsv, 350, 475);
             }

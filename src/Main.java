@@ -8,7 +8,7 @@ public class Main {
     public static void main (String[] args) {
 
         System.out.println("Running Connect Four by CallMeLee...");
-        starter(0);
+        starter();
 
     }
 
@@ -24,6 +24,8 @@ public class Main {
             }
             Window.gameWindow();
             Board.getInstance().gameLoop(pt1, pt2, Board.getInstance().getPlayingBoard(), true, depth, true);
+        } else {
+            starter();
         }
     }
 

@@ -195,7 +195,7 @@ public class Board {
             }
         }
         // Check for diagonal winner & forces
-        // -Left Top Right Bottom
+        //   - Left Top Right Bottom
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
                 if (position[j * 7 + i] == 0) {
@@ -213,7 +213,7 @@ public class Board {
                 }
             }
         }
-        // -Left Bottom Right Top
+        //   - Left Bottom Right Top
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
                 if (position[j * 7 + i + 3] == 0) {
@@ -301,21 +301,40 @@ public class Board {
                 }
             }
         }
+        // Small Progress [xx--]
+
         // Special Patterns
-        // -Pre-seven [xx][?x][x?]
-        for (int i = 0; i < 4; i++) {
+        //   - Pre-seven [???-][xx--][?x??][x???]
+        for (int i = 1; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 if (position[i * 6 + j + i] == 0) {
                     continue;
                 }
-                if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == 4) {
+                if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == 4 && position[i * 6 + j + i - 3] != -1 && position[i * 6 + j + i + 2] != -1 && position[i * 6 + j + i + 3] != -1) {
                     advantage += goodAdvantage;
-                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == -4) {
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == -4 && position[i * 6 + j + i - 3] != 1 && position[i * 6 + j + i + 2] != 1 && position[i * 6 + j + i + 3] != 1) {
                     advantage -= goodAdvantage;
-                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == 4) {
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == 4 && position[i * 6 + j + i - 3] != -1 && position[i * 6 + j + i + 2] != -1 && position[i * 6 + j + i + 3] != -1) {
                     advantage += goodAdvantage;
-                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == -4) {
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == -4 && position[i * 6 + j + i - 3] != 1 && position[i * 6 + j + i + 2] != 1 && position[i * 6 + j + i + 3] != 1) {
                     advantage -= goodAdvantage;
+                }
+            }
+        }
+        //   - Seven [???-][xxx-][?x??][x???]
+        for (int i = 1; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (position[i * 6 + j + i] == 0) {
+                    continue;
+                }
+                if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == 4 && position[i * 6 + j + i - 3] != -1 && position[i * 6 + j + i + 2] == 1 && position[i * 6 + j + i + 3] != -1) {
+                    advantage += bestAdvantage;
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == -4 && position[i * 6 + j + i - 3] != 1 && position[i * 6 + j + i + 2] == -1 && position[i * 6 + j + i + 3] != 1) {
+                    advantage -= bestAdvantage;
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == 4 && position[i * 6 + j + i - 3] != -1 && position[i * 6 + j + i + 2] == 1 && position[i * 6 + j + i + 3] != -1) {
+                    advantage += bestAdvantage;
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == -4 && position[i * 6 + j + i - 3] != 1 && position[i * 6 + j + i + 2] == -1 && position[i * 6 + j + i + 3] != 1) {
+                    advantage -= bestAdvantage;
                 }
             }
         }
