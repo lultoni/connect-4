@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class PlayerMinimax extends Player {
     HashRep transpositionTable = new HashRep();
@@ -8,7 +9,7 @@ public class PlayerMinimax extends Player {
         super(depth);
     }
 
-    protected void assessCols(boolean turn, int winnerval, int loserval, ArrayList<Integer> evalList, ArrayList<Integer> psList) {
+    protected void assessCols(boolean turn, int winnerval, int loserval, ArrayList<Integer> evalList, ArrayList<Integer> psList, boolean print) {
         long startTime = System.nanoTime();
         transpositionTable.clear();
         if (Board.getInstance().isColNotFull(1)) {
@@ -16,7 +17,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(1, turn);
             counter = 0;
-            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            int comp = Board.getInstance().winnerAfterMove(!turn, winnerval, loserval);
             if (comp == loserval) {
                 col1val = loserval;
             } else if (comp == winnerval) {
@@ -24,6 +25,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col1val = search(depth, !turn, -999999, 999999);
             }
+            if (print) System.out.println("1: " + col1val);
             evalList.add(col1val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -35,7 +37,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(2, turn);
             counter = 0;
-            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            int comp = Board.getInstance().winnerAfterMove(!turn, winnerval, loserval);
             if (comp == loserval) {
                 col2val = loserval;
             } else if (comp == winnerval) {
@@ -43,6 +45,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col2val = search(depth, !turn, -99999, 99999);
             }
+            if (print) System.out.println("2: " + col2val);
             evalList.add(col2val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -54,7 +57,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(3, turn);
             counter = 0;
-            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            int comp = Board.getInstance().winnerAfterMove(!turn, winnerval, loserval);
             if (comp == loserval) {
                 col3val = loserval;
             } else if (comp == winnerval) {
@@ -62,6 +65,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col3val = search(depth, !turn, -99999, 99999);
             }
+            if (print) System.out.println("3: " + col3val);
             evalList.add(col3val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -73,7 +77,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(4, turn);
             counter = 0;
-            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            int comp = Board.getInstance().winnerAfterMove(!turn, winnerval, loserval);
             if (comp == loserval) {
                 col4val = loserval;
             } else if (comp == winnerval) {
@@ -81,6 +85,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col4val = search(depth, !turn, -99999, 99999);
             }
+            if (print) System.out.println("4: " + col4val);
             evalList.add(col4val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -92,7 +97,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(5, turn);
             counter = 0;
-            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            int comp = Board.getInstance().winnerAfterMove(!turn, winnerval, loserval);
             if (comp == loserval) {
                 col5val = loserval;
             } else if (comp == winnerval) {
@@ -100,6 +105,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col5val = search(depth, !turn, -99999, 99999);
             }
+            if (print) System.out.println("5: " + col5val);
             evalList.add(col5val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -111,7 +117,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(6, turn);
             counter = 0;
-            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            int comp = Board.getInstance().winnerAfterMove(!turn, winnerval, loserval);
             if (comp == loserval) {
                 col6val = loserval;
             } else if (comp == winnerval) {
@@ -119,6 +125,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col6val = search(depth, !turn, -99999, 99999);
             }
+            if (print) System.out.println("6: " + col6val);
             evalList.add(col6val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -130,7 +137,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().createBB();
             Board.getInstance().makeMove(7, turn);
             counter = 0;
-            int comp = Board.getInstance().winnerAfterMove(turn, winnerval, loserval);
+            int comp = Board.getInstance().winnerAfterMove(!turn, winnerval, loserval);
             if (comp == loserval) {
                 col7val = loserval;
             } else if (comp == winnerval) {
@@ -138,6 +145,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col7val = search(depth, !turn, -99999, 99999);
             }
+            if (print) System.out.println("7: " + col7val);
             evalList.add(col7val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -145,7 +153,7 @@ public class PlayerMinimax extends Player {
         }
         long endTime = System.nanoTime();
         long outTime = Math.round((endTime - startTime) / 1e+6);
-//        System.out.println("No Multithreading: " + outTime + " ms");
+        if (print) System.out.println("No Multithreading: " + outTime + " ms");
     }
 
     @Override
@@ -164,12 +172,10 @@ public class PlayerMinimax extends Player {
         boolean turn = Board.getInstance().getTurn();
         ArrayList<Integer> evalList = new ArrayList<>(0);
         ArrayList<Integer> psList = new ArrayList<>(0);
-        assessCols(turn, winnerval, loserval, evalList, psList);
+        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[42])) return 4;
+        assessCols(turn, winnerval, loserval, evalList, psList, print);
         if (print) System.out.println("EL: " + evalList);
         if (print) System.out.println("PSL: " + psList);
-        if (transpositionTable.decode(Board.getInstance().getPlayingBoard()) == 997) {
-            return 3;
-        }
         int better = 0;
         if (print) System.out.println("Winner Play Check");
         if (col1val == winnerval && Board.getInstance().isColNotFull(1)) {
@@ -386,7 +392,7 @@ public class PlayerMinimax extends Player {
         if (print) System.out.println("Worse Play Check");
         int worse = loserval;
         int[] worsecolarr = new int[7];
-        if (Board.getInstance().getTurn()) {
+        if (loserval == -999999) {
             if (col1val != loserval && col1val != 69420 && Board.getInstance().isColNotFull(1)) {
                 if (col1val >= worse) {
                     worse = col1val;
@@ -422,6 +428,7 @@ public class PlayerMinimax extends Player {
                 } else if (col4val == worse) {
                     worsecolarr[3] = 4;
                 }
+            }
             if (col5val != loserval && col5val != 69420 && Board.getInstance().isColNotFull(5)) {
                 if (col5val > worse) {
                     worse = col5val;
@@ -449,7 +456,6 @@ public class PlayerMinimax extends Player {
             }
             if (col7val != loserval && col7val != 69420 && Board.getInstance().isColNotFull(7)) {
                 if (col7val > worse) {
-                    worse = col7val;
                     worsecolarr[0] = 0;
                     worsecolarr[1] = 0;
                     worsecolarr[2] = 0;
@@ -462,79 +468,78 @@ public class PlayerMinimax extends Player {
                 }
             }
         } else {
-                if (col1val != loserval && col1val != 69420 && Board.getInstance().isColNotFull(1)) {
-                    if (col1val <= worse) {
-                        worse = col1val;
-                        worsecolarr[0] = 1;
-                    }
+            if (col1val != loserval && col1val != 69420 && Board.getInstance().isColNotFull(1)) {
+                if (col1val <= worse) {
+                    worse = col1val;
+                    worsecolarr[0] = 1;
                 }
-                if (col2val != loserval && col2val != 69420 && Board.getInstance().isColNotFull(2)) {
-                    if (col2val < worse) {
-                        worse = col2val;
-                        worsecolarr[0] = 0;
-                        worsecolarr[1] = 2;
-                    } else if (col2val == worse) {
-                        worsecolarr[1] = 2;
-                    }
+            }
+            if (col2val != loserval && col2val != 69420 && Board.getInstance().isColNotFull(2)) {
+                if (col2val < worse) {
+                    worse = col2val;
+                    worsecolarr[0] = 0;
+                    worsecolarr[1] = 2;
+                } else if (col2val == worse) {
+                    worsecolarr[1] = 2;
                 }
-                if (col3val != loserval && col3val != 69420 && Board.getInstance().isColNotFull(3)) {
-                    if (col3val < worse) {
-                        worse = col3val;
-                        worsecolarr[0] = 0;
-                        worsecolarr[1] = 0;
-                        worsecolarr[2] = 3;
-                    } else if (col3val == worse) {
-                        worsecolarr[2] = 3;
-                    }
+            }
+            if (col3val != loserval && col3val != 69420 && Board.getInstance().isColNotFull(3)) {
+                if (col3val < worse) {
+                    worse = col3val;
+                    worsecolarr[0] = 0;
+                    worsecolarr[1] = 0;
+                    worsecolarr[2] = 3;
+                } else if (col3val == worse) {
+                    worsecolarr[2] = 3;
                 }
-                if (col4val != loserval && col4val != 69420 && Board.getInstance().isColNotFull(4)) {
-                    if (col4val < worse) {
-                        worse = col4val;
-                        worsecolarr[0] = 0;
-                        worsecolarr[1] = 0;
-                        worsecolarr[2] = 0;
-                        worsecolarr[3] = 4;
-                    } else if (col4val == worse) {
-                        worsecolarr[3] = 4;
-                    }
+            }
+            if (col4val != loserval && col4val != 69420 && Board.getInstance().isColNotFull(4)) {
+                if (col4val < worse) {
+                    worse = col4val;
+                    worsecolarr[0] = 0;
+                    worsecolarr[1] = 0;
+                    worsecolarr[2] = 0;
+                    worsecolarr[3] = 4;
+                } else if (col4val == worse) {
+                    worsecolarr[3] = 4;
                 }
-                if (col5val != loserval && col5val != 69420 && Board.getInstance().isColNotFull(5)) {
-                    if (col5val < worse) {
-                        worse = col5val;
-                        worsecolarr[0] = 0;
-                        worsecolarr[1] = 0;
-                        worsecolarr[2] = 0;
-                        worsecolarr[3] = 0;
-                        worsecolarr[4] = 5;
-                    } else if (col5val == worse) {
-                        worsecolarr[4] = 5;
-                    }
+            }
+            if (col5val != loserval && col5val != 69420 && Board.getInstance().isColNotFull(5)) {
+                if (col5val < worse) {
+                    worse = col5val;
+                    worsecolarr[0] = 0;
+                    worsecolarr[1] = 0;
+                    worsecolarr[2] = 0;
+                    worsecolarr[3] = 0;
+                    worsecolarr[4] = 5;
+                } else if (col5val == worse) {
+                    worsecolarr[4] = 5;
                 }
-                if (col6val != loserval && col6val != 69420 && Board.getInstance().isColNotFull(6)) {
-                    if (col6val < worse) {
-                        worse = col6val;
-                        worsecolarr[0] = 0;
-                        worsecolarr[1] = 0;
-                        worsecolarr[2] = 0;
-                        worsecolarr[3] = 0;
-                        worsecolarr[4] = 0;
-                        worsecolarr[5] = 6;
-                    } else if (col6val == worse) {
-                        worsecolarr[5] = 6;
-                    }
+            }
+            if (col6val != loserval && col6val != 69420 && Board.getInstance().isColNotFull(6)) {
+                if (col6val < worse) {
+                    worse = col6val;
+                    worsecolarr[0] = 0;
+                    worsecolarr[1] = 0;
+                    worsecolarr[2] = 0;
+                    worsecolarr[3] = 0;
+                    worsecolarr[4] = 0;
+                    worsecolarr[5] = 6;
+                } else if (col6val == worse) {
+                    worsecolarr[5] = 6;
                 }
-                if (col7val != loserval && col7val != 69420 && Board.getInstance().isColNotFull(7)) {
-                    if (col7val < worse) {
-                        worsecolarr[0] = 0;
-                        worsecolarr[1] = 0;
-                        worsecolarr[2] = 0;
-                        worsecolarr[3] = 0;
-                        worsecolarr[4] = 0;
-                        worsecolarr[5] = 0;
-                        worsecolarr[6] = 7;
-                    } else if (col7val == worse) {
-                        worsecolarr[6] = 7;
-                    }
+            }
+            if (col7val != loserval && col7val != 69420 && Board.getInstance().isColNotFull(7)) {
+                if (col7val < worse) {
+                    worsecolarr[0] = 0;
+                    worsecolarr[1] = 0;
+                    worsecolarr[2] = 0;
+                    worsecolarr[3] = 0;
+                    worsecolarr[4] = 0;
+                    worsecolarr[5] = 0;
+                    worsecolarr[6] = 7;
+                } else if (col7val == worse) {
+                    worsecolarr[6] = 7;
                 }
             }
         }
@@ -579,7 +584,7 @@ public class PlayerMinimax extends Player {
         }
         int preS = transpositionTable.prevSearch(Board.getInstance().getPlayingBoard());
         if (preS != 69420) {
-            return preS;
+//            return preS;
         }
 
         ArrayList<Integer> moves = Board.getInstance().legalMoves();

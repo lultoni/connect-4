@@ -5,9 +5,10 @@ public class PlayerHuman extends Player {
         super(0);
     }
 
+    static int column;
+
     @Override
     public int fetchMove(boolean print) {
-        int column;
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {

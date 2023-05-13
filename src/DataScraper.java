@@ -7,20 +7,21 @@ public class DataScraper {
     // Time (Timer)
     // Winner (Board (evaluate))
     // Free Fields (DataScraper)
-    public static void getData(int depth, int gamesToPlay) {
+    public static void getData(int depth, int gamesToPlay, Board game) {
         System.out.println("Fetching " + gamesToPlay + " games with a depth of " + depth + ".");
         for (int i = 0; i < gamesToPlay; i++) {
-            System.out.println("> Currently on game " + (i + 1));
-            Board.getInstance().gameLoop(2, 2, new int[42], false, depth);
+            System.out.println("> Currently on game " + (i + 1) + " (" + (gamesToPlay - i) + " to play)");
+            game.gameLoop(2, 2, new int[42], true, depth, false);
             String winner;
-            if (Board.getInstance().evaluate() == 999999) {
+            if (game.evaluate() == 999999) {
                 winner = "White";
             } else if (Board.getInstance().evaluate() == -999999) {
                 winner = "Black";
             } else {
                 winner = "Draw";
             }
-            String dataLine = depth + " " + Timer.averageMs() + " " + winner + " " + countFreeFields() + "\n";
+            String dataLine = depth + " " + Timer.averageMs() + " " + winner + " " + countFreeFields(game) + "\n";
+            System.out.println(">res> " + dataLine);
             try {
                 Files.write(Paths.get("data2.txt"), dataLine.getBytes(), StandardOpenOption.APPEND);
             }catch (IOException e) {
@@ -30,9 +31,9 @@ public class DataScraper {
         System.out.println("Ready to import.");
     }
 
-    private static int countFreeFields() {
+    private static int countFreeFields(Board game) {
         int counter = 0;
-        for (int f: Board.getInstance().getPlayingBoard()) {
+        for (int f: game.getPlayingBoard()) {
             if (f == 0) {
                 counter++;
             }

@@ -1,28 +1,39 @@
 public class Main {
 
+    static volatile boolean gameStart;
+    static int pt1 = 0;
+    static int pt2 = 0;
+    static int depth = 10;
+
     public static void main (String[] args) {
 
         System.out.println("Running Connect Four by CallMeLee...");
-//        DataScraper.getData(50, 1000);
-        //O O X O - - -
-        //X X O O - - -
-        //O X O O - X O
-        //O O O X - O X
-        //X X X O X X X
-        //O X X O O X X
-        int[] board = {
-                -1,-1,1,-1,0,0,0,
-                1,1,-1,-1,0,0,0,
-                -1,1,-1,-1,0,1,-1,
-                -1,-1,-1,1,0,-1,1,
-                1,1,1,-1,1,1,1,
-                -1,1,1,-1,-1,1,1};
-//        Board.getInstance().loadPosition(board);
-        int pt1 = 2;
-        int pt2 = 0;
-        int depth = 50;
-        Board.getInstance().gameLoop(pt1, pt2, Board.getInstance().getPlayingBoard(), true, depth);
+        starter(0);
 
+    }
+
+    public static void starter(int what) {
+        if (what == 0) {
+            DataScraper.getData(10, 1000, Board.getInstance());
+        } else if (what == 1) {
+            int[] board = {0,0,0,0,0,0,0,  0,1,0,1,0,-1,0,  0,-1,0,-1,0,-1,0,  0,-1,0,1,0,-1,0,  0,1,0,-1,1,1,0,  0,-1,1,1,-1,1,0};
+            Board.getInstance().loadPosition(board);
+            Window.startMenu();
+            while (!gameStart) {
+                Thread.onSpinWait();
+            }
+            Window.gameWindow();
+            Board.getInstance().gameLoop(pt1, pt2, Board.getInstance().getPlayingBoard(), true, depth, true);
+        }
+    }
+
+    public static void starter() {
+        Window.startMenu();
+        while (!gameStart) {
+            Thread.onSpinWait();
+        }
+        Window.gameWindow();
+        Board.getInstance().gameLoop(pt1, pt2, Board.getInstance().getPlayingBoard(), true, depth, true);
     }
 
 }

@@ -2,18 +2,17 @@ import java.util.HashMap;
 
 public class HashRep {
 
-    private final HashMap<Integer, Integer> table = new HashMap<>();
+    private final HashMap<int[], Integer> table = new HashMap<>();
 
     protected int prevSearch(int[] position) {
-        int code = decode(position);
-        if (table.containsKey(code)) {
-            return table.get(code);
+        if (table.containsKey(position)) {
+            return table.get(position);
         }
         return 69420;
     }
 
     protected void add(int[] position, int eval) {
-        table.put(decode(position), eval);
+        table.put(position, eval);
     }
 
     protected void clear() {

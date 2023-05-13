@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
 
     private static volatile Board instance;
     private int[] playingBoard;
+    protected static boolean wasInput = false;
 
     private Board() {
         this.playingBoard = new int[42];
@@ -27,7 +29,9 @@ public class Board {
     }
 
     public void printBoard() {
+        Window.frame.repaint();
         System.out.println("~~~~~~~~~~\nPosition-ID: " + new HashRep().decode(playingBoard));
+        System.out.println("Position: " + Arrays.toString(playingBoard));
         int start = 0;
         int stop = 7;
         for (int i = 0; i < 6; i++) {
@@ -51,7 +55,7 @@ public class Board {
 
     private boolean turn = true;
 
-    public void gameLoop(int playerW, int playerB, int[] board, boolean print, int depth) {
+    public void gameLoop(int playerW, int playerB, int[] board, boolean print, int depth, boolean waiter) {
         playingBoard = board;
         Player playerWhite;
         Player playerBlack;
@@ -71,14 +75,35 @@ public class Board {
         }
         while (areFieldsLeft() && evaluate() != 999999 && evaluate() != -999999) {
             if (print) printBoard();
+            if (waiter) {
+                long startTime = System.nanoTime();
+                long endTime;
+                do {
+                    endTime = System.nanoTime();
+                } while (Math.round((endTime - startTime) / 1e+6) < 100);
+            }
             if (turn) {
                 if (print) System.out.println("?> White Starts Thinking");
-                makeMove(playerWhite.fetchMove(print), turn);
+                if (!playerWhite.getClass().equals(PlayerHuman.class)) {
+                    makeMove(playerWhite.fetchMove(print), turn);
+                } else {
+                    wasInput = false;
+                    while (!wasInput) {
+                        Thread.onSpinWait();
+                    }
+                }
                 if (print) System.out.println("?> White made a move.");
                 turn = false;
             } else {
                 if (print) System.out.println("?> Black Starts Thinking");
-                makeMove(playerBlack.fetchMove(print), turn);
+                if (!playerBlack.getClass().equals(PlayerHuman.class)) {
+                    makeMove(playerBlack.fetchMove(print), turn);
+                } else {
+                    wasInput = false;
+                    while (!wasInput) {
+                        Thread.onSpinWait();
+                    }
+                }
                 if (print) System.out.println("?> Black made a move.");
                 turn = true;
             }
@@ -122,20 +147,24 @@ public class Board {
     }
 
     protected int evaluate() {
+        return evaluate(playingBoard);
+    }
+
+    protected int evaluate(int[] position) {
         // winner eval
         final int winnerBlack =  -999999;
         final int winnerWhite =   999999;
-        final int bestAdvantage = 500000;
-        final int goodAdvantage = 250000;
-        final int okAdvantage =   10000;
+        final int bestAdvantage = 500000; // 500000
+        final int goodAdvantage = 250000; // 250000
+        final int okAdvantage =   10000; // 10000
         int advantage = 0;
-        // Check for horizontal winner
+        // Check for horizontal winner & forces
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 4; j++) {
-                if (playingBoard[i * 6 + j + i] == 0) {
+                if (position[i * 6 + j + i] == 0) {
                     continue;
                 }
-                switch (playingBoard[i * 6 + j + i] + playingBoard[i * 6 + j + 1 + i] + playingBoard[i * 6 + j + 2 + i] + playingBoard[i * 6 + j + 3 + i]) {
+                switch (position[i * 6 + j + i] + position[i * 6 + j + 1 + i] + position[i * 6 + j + 2 + i] + position[i * 6 + j + 3 + i]) {
                     case 4 -> {
                         return winnerWhite;
                     }
@@ -147,13 +176,13 @@ public class Board {
                 }
             }
         }
-        // Check for vertical winner
+        // Check for vertical winner & forces
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 3; j++) {
-                if (playingBoard[i + j * 7] == 0) {
+                if (position[i + j * 7] == 0) {
                     continue;
                 }
-                switch (playingBoard[i + j * 7] + playingBoard[i + j * 7 + 7] + playingBoard[i + j * 7 + 14] + playingBoard[i + j * 7 + 21]) {
+                switch (position[i + j * 7] + position[i + j * 7 + 7] + position[i + j * 7 + 14] + position[i + j * 7 + 21]) {
                     case 4 -> {
                         return winnerWhite;
                     }
@@ -165,14 +194,14 @@ public class Board {
                 }
             }
         }
-        // Check for diagonal winner
-        // Left Top Right Bottom
+        // Check for diagonal winner & forces
+        // -Left Top Right Bottom
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                if (playingBoard[j * 7 + i] == 0) {
+                if (position[j * 7 + i] == 0) {
                     continue;
                 }
-                switch (playingBoard[j * 7 + i] + playingBoard[j * 7 + i + 8] + playingBoard[j * 7 + i + 16] + playingBoard[j * 7 + i + 24]) {
+                switch (position[j * 7 + i] + position[j * 7 + i + 8] + position[j * 7 + i + 16] + position[j * 7 + i + 24]) {
                     case 4 -> {
                         return winnerWhite;
                     }
@@ -184,13 +213,13 @@ public class Board {
                 }
             }
         }
-        // Left Bottom Right Top
+        // -Left Bottom Right Top
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                if (playingBoard[j * 7 + i + 3] == 0) {
+                if (position[j * 7 + i + 3] == 0) {
                     continue;
                 }
-                switch (playingBoard[j * 7 + i + 3] + playingBoard[j * 7 + i + 3 + 6] + playingBoard[j * 7 + i + 3 + 12] + playingBoard[j * 7 + i + 3 + 18]) {
+                switch (position[j * 7 + i + 3] + position[j * 7 + i + 3 + 6] + position[j * 7 + i + 3 + 12] + position[j * 7 + i + 3 + 18]) {
                     case 4 -> {
                         return winnerWhite;
                     }
@@ -202,24 +231,25 @@ public class Board {
                 }
             }
         }
+        // Traps [-xxx-] & Pre-traps [-x-x-]
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 3; j++) {
-                if (playingBoard[i * 6 + j + i] == 0 && playingBoard[i * 6 + j + 4 + i] == 0) {
-                    if (playingBoard[i * 6 + j + 1 + i] + playingBoard[i * 6 + j + 2 + i] + playingBoard[i * 6 + j + 3 + i] == 3) {
+                if (position[i * 6 + j + i] == 0 && position[i * 6 + j + 4 + i] == 0) {
+                    if (position[i * 6 + j + 1 + i] + position[i * 6 + j + 2 + i] + position[i * 6 + j + 3 + i] == 3) {
                         advantage += bestAdvantage;
-                    } else if (playingBoard[i * 6 + j + 1 + i] + playingBoard[i * 6 + j + 2 + i] + playingBoard[i * 6 + j + 3 + i] == -3) {
+                    } else if (position[i * 6 + j + 1 + i] + position[i * 6 + j + 2 + i] + position[i * 6 + j + 3 + i] == -3) {
                         advantage -= bestAdvantage;
-                    } else if (playingBoard[i * 6 + j + 1 + i] == 1 && playingBoard[i * 6 + j + 2 + i] == 1 && playingBoard[i * 6 + j + 3 + i] == 0) {
+                    } else if (position[i * 6 + j + 1 + i] == 1 && position[i * 6 + j + 2 + i] == 1 && position[i * 6 + j + 3 + i] == 0) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[i * 6 + j + 1 + i] == 1 && playingBoard[i * 6 + j + 2 + i] == 0 && playingBoard[i * 6 + j + 3 + i] == 1) {
+                    } else if (position[i * 6 + j + 1 + i] == 1 && position[i * 6 + j + 2 + i] == 0 && position[i * 6 + j + 3 + i] == 1) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[i * 6 + j + 1 + i] == 0 && playingBoard[i * 6 + j + 2 + i] == 1 && playingBoard[i * 6 + j + 3 + i] == 1) {
+                    } else if (position[i * 6 + j + 1 + i] == 0 && position[i * 6 + j + 2 + i] == 1 && position[i * 6 + j + 3 + i] == 1) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[i * 6 + j + 1 + i] == -1 && playingBoard[i * 6 + j + 2 + i] == -1 && playingBoard[i * 6 + j + 3 + i] == 0) {
+                    } else if (position[i * 6 + j + 1 + i] == -1 && position[i * 6 + j + 2 + i] == -1 && position[i * 6 + j + 3 + i] == 0) {
                         advantage -= goodAdvantage;
-                    } else if (playingBoard[i * 6 + j + 1 + i] == -1 && playingBoard[i * 6 + j + 2 + i] == 0 && playingBoard[i * 6 + j + 3 + i] == -1) {
+                    } else if (position[i * 6 + j + 1 + i] == -1 && position[i * 6 + j + 2 + i] == 0 && position[i * 6 + j + 3 + i] == -1) {
                         advantage -= goodAdvantage;
-                    } else if (playingBoard[i * 6 + j + 1 + i] == 0 && playingBoard[i * 6 + j + 2 + i] == -1 && playingBoard[i * 6 + j + 3 + i] == -1) {
+                    } else if (position[i * 6 + j + 1 + i] == 0 && position[i * 6 + j + 2 + i] == -1 && position[i * 6 + j + 3 + i] == -1) {
                         advantage -= goodAdvantage;
                     }
                 }
@@ -227,22 +257,22 @@ public class Board {
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
-                if (playingBoard[j * 7 + i] == 0 && playingBoard[j * 7 + i + 32] == 0) {
-                    if (playingBoard[j * 7 + i + 8] + playingBoard[j * 7 + i + 16] + playingBoard[j * 7 + i + 24] == 3) {
+                if (position[j * 7 + i] == 0 && position[j * 7 + i + 32] == 0) {
+                    if (position[j * 7 + i + 8] + position[j * 7 + i + 16] + position[j * 7 + i + 24] == 3) {
                         advantage += bestAdvantage;
-                    } else if (playingBoard[j * 7 + i + 8] + playingBoard[j * 7 + i + 16] + playingBoard[j * 7 + i + 24] == -3) {
+                    } else if (position[j * 7 + i + 8] + position[j * 7 + i + 16] + position[j * 7 + i + 24] == -3) {
                         advantage -= bestAdvantage;
-                    } else if (playingBoard[j * 7 + i + 8] == 1 && playingBoard[j * 7 + i + 16] == 1 && playingBoard[j * 7 + i + 24] == 0) {
+                    } else if (position[j * 7 + i + 8] == 1 && position[j * 7 + i + 16] == 1 && position[j * 7 + i + 24] == 0) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 8] == 1 && playingBoard[j * 7 + i + 16] == 0 && playingBoard[j * 7 + i + 24] == 1) {
+                    } else if (position[j * 7 + i + 8] == 1 && position[j * 7 + i + 16] == 0 && position[j * 7 + i + 24] == 1) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 8] == 0 && playingBoard[j * 7 + i + 16] == 1 && playingBoard[j * 7 + i + 24] == 1) {
+                    } else if (position[j * 7 + i + 8] == 0 && position[j * 7 + i + 16] == 1 && position[j * 7 + i + 24] == 1) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 8] == -1 && playingBoard[j * 7 + i + 16] == -1 && playingBoard[j * 7 + i + 24] == 0) {
+                    } else if (position[j * 7 + i + 8] == -1 && position[j * 7 + i + 16] == -1 && position[j * 7 + i + 24] == 0) {
                         advantage -= goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 8] == -1 && playingBoard[j * 7 + i + 16] == 0 && playingBoard[j * 7 + i + 24] == -1) {
+                    } else if (position[j * 7 + i + 8] == -1 && position[j * 7 + i + 16] == 0 && position[j * 7 + i + 24] == -1) {
                         advantage -= goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 8] == 0 && playingBoard[j * 7 + i + 16] == -1 && playingBoard[j * 7 + i + 24] == -1) {
+                    } else if (position[j * 7 + i + 8] == 0 && position[j * 7 + i + 16] == -1 && position[j * 7 + i + 24] == -1) {
                         advantage -= goodAdvantage;
                     }
                 }
@@ -250,24 +280,42 @@ public class Board {
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
-                if (playingBoard[j * 7 + i + 4] == 0 && playingBoard[j * 7 + i + 4 + 24] == 0) {
-                    if (playingBoard[j * 7 + i + 4 + 6] + playingBoard[j * 7 + i + 4 + 12] + playingBoard[j * 7 + i + 4 + 18] == 3) {
+                if (position[j * 7 + i + 4] == 0 && position[j * 7 + i + 4 + 24] == 0) {
+                    if (position[j * 7 + i + 4 + 6] + position[j * 7 + i + 4 + 12] + position[j * 7 + i + 4 + 18] == 3) {
                         advantage += bestAdvantage;
-                    } else if (playingBoard[j * 7 + i + 4 + 6] + playingBoard[j * 7 + i + 4 + 12] + playingBoard[j * 7 + i + 4 + 18] == -3) {
+                    } else if (position[j * 7 + i + 4 + 6] + position[j * 7 + i + 4 + 12] + position[j * 7 + i + 4 + 18] == -3) {
                         advantage -= bestAdvantage;
-                    } else if (playingBoard[j * 7 + i + 4 + 6] == 1 && playingBoard[j * 7 + i + 4 + 12] == 1 && playingBoard[j * 7 + i + 4 + 18] == 0) {
+                    } else if (position[j * 7 + i + 4 + 6] == 1 && position[j * 7 + i + 4 + 12] == 1 && position[j * 7 + i + 4 + 18] == 0) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 4 + 6] == 1 && playingBoard[j * 7 + i + 4 + 12] == 0 && playingBoard[j * 7 + i + 4 + 18] == 1) {
+                    } else if (position[j * 7 + i + 4 + 6] == 1 && position[j * 7 + i + 4 + 12] == 0 && position[j * 7 + i + 4 + 18] == 1) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 4 + 6] == 0 && playingBoard[j * 7 + i + 4 + 12] == 1 && playingBoard[j * 7 + i + 4 + 18] == 1) {
+                    } else if (position[j * 7 + i + 4 + 6] == 0 && position[j * 7 + i + 4 + 12] == 1 && position[j * 7 + i + 4 + 18] == 1) {
                         advantage += goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 4 + 6] == -1 && playingBoard[j * 7 + i + 4 + 12] == -1 && playingBoard[j * 7 + i + 4 + 18] == 0) {
+                    } else if (position[j * 7 + i + 4 + 6] == -1 && position[j * 7 + i + 4 + 12] == -1 && position[j * 7 + i + 4 + 18] == 0) {
                         advantage -= goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 4 + 6] == -1 && playingBoard[j * 7 + i + 4 + 12] == 0 && playingBoard[j * 7 + i + 4 + 18] == -1) {
+                    } else if (position[j * 7 + i + 4 + 6] == -1 && position[j * 7 + i + 4 + 12] == 0 && position[j * 7 + i + 4 + 18] == -1) {
                         advantage -= goodAdvantage;
-                    } else if (playingBoard[j * 7 + i + 4 + 6] == 0 && playingBoard[j * 7 + i + 4 + 12] == -1 && playingBoard[j * 7 + i + 4 + 18] == -1) {
+                    } else if (position[j * 7 + i + 4 + 6] == 0 && position[j * 7 + i + 4 + 12] == -1 && position[j * 7 + i + 4 + 18] == -1) {
                         advantage -= goodAdvantage;
                     }
+                }
+            }
+        }
+        // Special Patterns
+        // -Pre-seven [xx][?x][x?]
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (position[i * 6 + j + i] == 0) {
+                    continue;
+                }
+                if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == 4) {
+                    advantage += goodAdvantage;
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 8] + position[i * 6 + j + i + 14] == -4) {
+                    advantage -= goodAdvantage;
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == 4) {
+                    advantage += goodAdvantage;
+                } else if (position[i * 6 + j + i] + position[i * 6 + j + i + 1] + position[i * 6 + j + i + 7] + position[i * 6 + j + i + 15] == -4) {
+                    advantage -= goodAdvantage;
                 }
             }
         }
@@ -300,9 +348,13 @@ public class Board {
         backupTurn = turn;
     }
 
-    protected  void loadBB() {
+    protected void loadBB() {
         System.arraycopy(backupBoard, 0, playingBoard, 0, 42);
         turn = backupTurn;
+    }
+
+    protected int[] fetchBB() {
+        return backupBoard;
     }
 
     public boolean getTurn() {
@@ -313,14 +365,14 @@ public class Board {
         return playingBoard[col - 1] == 0;
     }
 
-    public void loadPosition(int[] board) {
-        playingBoard = board;
+    public void loadPosition(int[] position) {
+        playingBoard = position;
     }
 
-    public int winnerAfterMove(boolean turn, int winnerval, int loserval) {
+    public int winnerAfterMove(boolean whoWillMakeTheMoveNow, int winnerval, int loserval) {
         for (int i = 1; i <= 7; i++) {
             if (isColNotFull(i)) {
-                makeMove(i, !turn);
+                makeMove(i, whoWillMakeTheMoveNow);
                 int eval = evaluate();
                 undoMove(i);
                 if (eval == winnerval) {
