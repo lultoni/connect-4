@@ -87,7 +87,7 @@ public class Window implements MouseListener {
 
     static void gameWindow() {
         int[] playingBoard = Board.getInstance().getPlayingBoard();
-        frame.setBounds(10, 10, 820, 620);
+//        frame.setBounds(10, 10, 820, 620);
         JPanel pn = new JPanel() {
             @Override
             public void paint(Graphics g) {
@@ -124,6 +124,20 @@ public class Window implements MouseListener {
                         }
                         g.fillOval(column * 50 + 13, row * 50 + 13, 44, 44);
                     }
+                }
+                // WINNER TEXT
+                if (Board.getInstance().evaluate(playingBoard) == 999999) {
+                    g.setColor(whiteplayer);
+                    g.setFont(new Font( "SansSerif", Font.BOLD, 30));
+                    g.drawString("Red won.", 385, 75);
+                } else if (Board.getInstance().evaluate(playingBoard) == -999999) {
+                    g.setColor(blackplayer);
+                    g.setFont(new Font( "SansSerif", Font.BOLD, 30));
+                    g.drawString("Orange won.", 385, 75);
+                } else if (!Board.getInstance().areFieldsLeft(playingBoard)) {
+                    g.setColor(Color.black);
+                    g.setFont(new Font( "SansSerif", Font.BOLD, 30));
+                    g.drawString("Draw.", 385, 75);
                 }
                 // TURN BOX & FREE FIELDS
                 int dif = -10;

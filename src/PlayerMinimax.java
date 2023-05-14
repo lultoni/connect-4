@@ -32,22 +32,15 @@ public class PlayerMinimax extends Player {
                 col1val = search(depth, !turn, localAlpha, localBeta);
             }
             if (print) System.out.println("1: " + col1val);
-            System.out.println("a[" + alpha + "] b[" + alpha + "]");
             evalList.add(col1val);
             psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
 //        transpositionTable.clear();
-        if (alpha == beta || true) {
-            localAlpha = -999999;
-            localBeta = 999999;
-            alpha = -999999;
-            beta = 999999;
-        } else {
-            localAlpha = alpha;
-            localBeta = beta;
-        }
+//        if (turn) localAlpha = Math.max(localAlpha, col1val);
+//        if (!turn) localBeta = Math.min(localBeta, col1val);
+//        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
         if (Board.getInstance().isColNotFull(2)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -62,22 +55,15 @@ public class PlayerMinimax extends Player {
                 col2val = search(depth, !turn, localAlpha, localBeta);
             }
             if (print) System.out.println("2: " + col2val);
-            System.out.println("a[" + alpha + "] b[" + alpha + "]");
             evalList.add(col2val);
             psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
 //        transpositionTable.clear();
-        if (alpha == beta || true) {
-            localAlpha = -999999;
-            localBeta = 999999;
-            alpha = -999999;
-            beta = 999999;
-        } else {
-            localAlpha = alpha;
-            localBeta = beta;
-        }
+//        if (turn) localAlpha = Math.max(localAlpha, col2val);
+//        if (!turn) localBeta = Math.min(localBeta, col2val);
+//        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
         if (Board.getInstance().isColNotFull(3)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -92,22 +78,15 @@ public class PlayerMinimax extends Player {
                 col3val = search(depth, !turn, localAlpha, localBeta);
             }
             if (print) System.out.println("3: " + col3val);
-            System.out.println("a[" + alpha + "] b[" + alpha + "]");
             evalList.add(col3val);
             psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
 //        transpositionTable.clear();
-        if (alpha == beta || true) {
-            localAlpha = -999999;
-            localBeta = 999999;
-            alpha = -999999;
-            beta = 999999;
-        } else {
-            localAlpha = alpha;
-            localBeta = beta;
-        }
+//        if (turn) localAlpha = Math.max(localAlpha, col3val);
+//        if (!turn) localBeta = Math.min(localBeta, col3val);
+//        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
         if (Board.getInstance().isColNotFull(4)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -122,22 +101,15 @@ public class PlayerMinimax extends Player {
                 col4val = search(depth, !turn, localAlpha, localBeta);
             }
             if (print) System.out.println("4: " + col4val);
-            System.out.println("a[" + alpha + "] b[" + alpha + "]");
             evalList.add(col4val);
             psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
 //        transpositionTable.clear();
-        if (alpha == beta || true) {
-            localAlpha = -999999;
-            localBeta = 999999;
-            alpha = -999999;
-            beta = 999999;
-        } else {
-            localAlpha = alpha;
-            localBeta = beta;
-        }
+//        if (turn) localAlpha = Math.max(localAlpha, col4val);
+//        if (!turn) localBeta = Math.min(localBeta, col4val);
+//        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
         if (Board.getInstance().isColNotFull(5)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -152,22 +124,15 @@ public class PlayerMinimax extends Player {
                 col5val = search(depth, !turn, localAlpha, localBeta);
             }
             if (print) System.out.println("5: " + col5val);
-            System.out.println("a[" + alpha + "] b[" + alpha + "]");
             evalList.add(col5val);
             psList.add(counter);
             Board.getInstance().loadBB();
             Timer.end();
         }
 //        transpositionTable.clear();
-        if (alpha == beta || true) {
-            localAlpha = -999999;
-            localBeta = 999999;
-            alpha = -999999;
-            beta = 999999;
-        } else {
-            localAlpha = alpha;
-            localBeta = beta;
-        }
+//        if (turn) localAlpha = Math.max(localAlpha, col5val);
+//        if (!turn) localBeta = Math.min(localBeta, col5val);
+//        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
         if (Board.getInstance().isColNotFull(6)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -182,18 +147,13 @@ public class PlayerMinimax extends Player {
                 col6val = search(depth, !turn, localAlpha, localBeta);
             }
             if (print) System.out.println("6: " + col6val);
-            System.out.println("a[" + alpha + "] b[" + alpha + "]");
             Board.getInstance().loadBB();
             Timer.end();
         }
 //        transpositionTable.clear();
-        if (alpha == beta || true) {
-            localAlpha = -999999;
-            localBeta = 999999;
-        } else {
-            localAlpha = alpha;
-            localBeta = beta;
-        }
+//        if (turn) localAlpha = Math.max(localAlpha, col6val);
+//        if (!turn) localBeta = Math.min(localBeta, col6val);
+//        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
         if (Board.getInstance().isColNotFull(7)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -208,7 +168,9 @@ public class PlayerMinimax extends Player {
                 col7val = search(depth, !turn, localAlpha, localBeta);
             }
             if (print) System.out.println("7: " + col7val);
-            System.out.println("a[" + alpha + "] b[" + alpha + "]");
+//            if (turn) localAlpha = Math.max(localAlpha, col7val);
+//            if (!turn) localBeta = Math.min(localBeta, col7val);
+//            System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
             evalList.add(col7val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -419,6 +381,11 @@ public class PlayerMinimax extends Player {
         }
         if (contains) {
             if (print) System.out.println(Arrays.toString(bettercolarr));
+            for (int m: bettercolarr) {
+                if (m != 0) {
+                    return m;
+                }
+            }
             while (true) {
                 int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
                 if (bettercolarr[column] != 0) {
@@ -639,7 +606,7 @@ public class PlayerMinimax extends Player {
 
     private int search(int depth, boolean maximizingPlayer, int alpha, int beta) {
         counter++;
-        if (!Board.getInstance().areFieldsLeft()) {
+        if (!Board.getInstance().areFieldsLeft(Board.getInstance().getPlayingBoard())) {
             return 0;
         }
         int evl = Board.getInstance().evaluate();
