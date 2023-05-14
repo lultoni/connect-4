@@ -151,6 +151,12 @@ public class Board {
     }
 
     protected int evaluate(int[] position) {
+        // Is there a draw
+        boolean draw = true;
+        for (int f: position) {
+            if (f == 0) draw = false; break;
+        }
+        if (draw) return 0;
         // winner eval
         final int winnerBlack =  -999999;
         final int winnerWhite =   999999;
@@ -413,4 +419,8 @@ public class Board {
         return 0;
     }
 
+    public boolean gameOver() {
+        int eval = evaluate();
+        return eval == 999999 || eval == -999999 || !areFieldsLeft(playingBoard);
+    }
 }
