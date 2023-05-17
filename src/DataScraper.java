@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.concurrent.ExecutionException;
 
 public class DataScraper {
 
@@ -7,7 +8,7 @@ public class DataScraper {
     // Time (Timer)
     // Winner (Board (evaluate))
     // Free Fields (DataScraper)
-    public static void getData(int depth, int gamesToPlay, Board game) {
+    public static void getData(int depth, int gamesToPlay, Board game) throws ExecutionException, InterruptedException {
         System.out.println("Fetching " + gamesToPlay + " games with a depth of " + depth + ".");
         for (int i = 0; i < gamesToPlay; i++) {
             System.out.println("> Currently on game " + (i + 1) + " (" + (gamesToPlay - i) + " to play)");
@@ -20,8 +21,9 @@ public class DataScraper {
             } else {
                 winner = "Draw";
             }
-            String dataLine = depth + " " + Timer.averageMs() + " " + winner + " " + countFreeFields(game) + "\n";
+            String dataLine = depth + " " + Timer.averageMs() + " " + winner + " " + countFreeFields(game);
             System.out.println(">res> " + dataLine);
+            dataLine += "\n";
             try {
                 Files.write(Paths.get("data2.txt"), dataLine.getBytes(), StandardOpenOption.APPEND);
             }catch (IOException e) {

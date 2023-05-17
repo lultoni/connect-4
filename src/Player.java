@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class Player {
 
@@ -16,7 +17,7 @@ public class Player {
         this.depth = depth;
     }
 
-    public int fetchMove(boolean print) {
+    public int fetchMove(boolean print) throws ExecutionException, InterruptedException {
         return -1;
     }
 

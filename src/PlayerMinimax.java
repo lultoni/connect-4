@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.*;
 
 public class PlayerMinimax extends Player {
     HashRep transpositionTable = new HashRep();
@@ -11,13 +12,67 @@ public class PlayerMinimax extends Player {
         super(depth);
     }
 
-    protected void assessCols(boolean turn, int winnerval, int loserval, ArrayList<Integer> evalList, ArrayList<Integer> psList, boolean print) {
+    protected void assessCols(boolean turn, int winnerval, int loserval, ArrayList<Integer> evalList, ArrayList<Integer> psList, boolean print) throws ExecutionException, InterruptedException {
         long startTime = System.nanoTime();
         transpositionTable.clear();
         alpha = -999999;
         beta = 999999;
         int localAlpha = alpha;
         int localBeta = beta;
+
+        Board.getInstance().createBB();
+
+        ExecutorService executor = Executors.newFixedThreadPool(7);
+        Board.getInstance().makeMove(1, Board.getInstance().getTurn());
+        Callable<Integer> thread1 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+        Board.getInstance().loadBB();
+        Board.getInstance().makeMove(2, Board.getInstance().getTurn());
+        Callable<Integer> thread2 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+        Board.getInstance().loadBB();
+        Board.getInstance().makeMove(3, Board.getInstance().getTurn());
+        Callable<Integer> thread3 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+        Board.getInstance().loadBB();
+        Board.getInstance().makeMove(4, Board.getInstance().getTurn());
+        Callable<Integer> thread4 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+        Board.getInstance().loadBB();
+        Board.getInstance().makeMove(5, Board.getInstance().getTurn());
+        Callable<Integer> thread5 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+        Board.getInstance().loadBB();
+        Board.getInstance().makeMove(6, Board.getInstance().getTurn());
+        Callable<Integer> thread6 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+        Board.getInstance().loadBB();
+        Board.getInstance().makeMove(7, Board.getInstance().getTurn());
+        Callable<Integer> thread7 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+        Board.getInstance().loadBB();
+
+        Future<Integer> future1 = executor.submit(thread1);
+        Future<Integer> future2 = executor.submit(thread2);
+        Future<Integer> future3 = executor.submit(thread3);
+        Future<Integer> future4 = executor.submit(thread4);
+        Future<Integer> future5 = executor.submit(thread5);
+        Future<Integer> future6 = executor.submit(thread6);
+        Future<Integer> future7 = executor.submit(thread7);
+
+        col1val = future1.get();
+        col2val = future2.get();
+        col3val = future3.get();
+        col4val = future4.get();
+        col5val = future5.get();
+        col6val = future6.get();
+        col7val = future7.get();
+
+        executor.shutdown();
+
+        Board.getInstance().loadBB();
+
+        System.out.println("Column 1 Value: " + col1val);
+        System.out.println("Column 2 Value: " + col2val);
+        System.out.println("Column 3 Value: " + col3val);
+        System.out.println("Column 4 Value: " + col4val);
+        System.out.println("Column 5 Value: " + col5val);
+        System.out.println("Column 6 Value: " + col6val);
+        System.out.println("Column 7 Value: " + col7val);
+
         if (Board.getInstance().isColNotFull(1)) {
             Timer.start();
             Board.getInstance().createBB();
@@ -37,7 +92,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().loadBB();
             Timer.end();
         }
-//        transpositionTable.clear();
+        transpositionTable.clear();
 //        if (turn) localAlpha = Math.max(localAlpha, col1val);
 //        if (!turn) localBeta = Math.min(localBeta, col1val);
 //        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
@@ -60,7 +115,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().loadBB();
             Timer.end();
         }
-//        transpositionTable.clear();
+        transpositionTable.clear();
 //        if (turn) localAlpha = Math.max(localAlpha, col2val);
 //        if (!turn) localBeta = Math.min(localBeta, col2val);
 //        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
@@ -83,7 +138,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().loadBB();
             Timer.end();
         }
-//        transpositionTable.clear();
+        transpositionTable.clear();
 //        if (turn) localAlpha = Math.max(localAlpha, col3val);
 //        if (!turn) localBeta = Math.min(localBeta, col3val);
 //        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
@@ -106,7 +161,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().loadBB();
             Timer.end();
         }
-//        transpositionTable.clear();
+        transpositionTable.clear();
 //        if (turn) localAlpha = Math.max(localAlpha, col4val);
 //        if (!turn) localBeta = Math.min(localBeta, col4val);
 //        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
@@ -129,7 +184,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().loadBB();
             Timer.end();
         }
-//        transpositionTable.clear();
+        transpositionTable.clear();
 //        if (turn) localAlpha = Math.max(localAlpha, col5val);
 //        if (!turn) localBeta = Math.min(localBeta, col5val);
 //        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
@@ -150,7 +205,7 @@ public class PlayerMinimax extends Player {
             Board.getInstance().loadBB();
             Timer.end();
         }
-//        transpositionTable.clear();
+        transpositionTable.clear();
 //        if (turn) localAlpha = Math.max(localAlpha, col6val);
 //        if (!turn) localBeta = Math.min(localBeta, col6val);
 //        System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
@@ -182,7 +237,7 @@ public class PlayerMinimax extends Player {
     }
 
     @Override
-    public int fetchMove(boolean print) {
+    public int fetchMove(boolean print) throws ExecutionException, InterruptedException {
         if (print) System.out.println("Positions in the HashTable: " + transpositionTable.size());
         counter = 0;
         int winnerval;
@@ -197,8 +252,8 @@ public class PlayerMinimax extends Player {
         boolean turn = Board.getInstance().getTurn();
         ArrayList<Integer> evalList = new ArrayList<>(0);
         ArrayList<Integer> psList = new ArrayList<>(0);
-        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[42])) return 4;
-        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0})) return 4;
+//        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[42])) return 4;
+//        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0})) return 4;
         assessCols(turn, winnerval, loserval, evalList, psList, print);
         if (print) System.out.println("EL: " + evalList);
         if (print) System.out.println("PSL: " + psList);
