@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class Main {
@@ -8,6 +9,17 @@ public class Main {
     static int depth = 10;
 
     public static void main (String[] args) throws ExecutionException, InterruptedException {
+
+        int[] arr1 = {10, 20, 30};
+        System.out.println("arr1 Before copying: " + Arrays.toString(arr1));
+
+        int[] arr2 = new int[arr1.length];
+
+        System.arraycopy(arr1, 0, arr2, 0, arr1.length);
+        System.out.println("arr2 After copying: " + Arrays.toString(arr1));
+
+        arr2[0] = 30;
+        System.out.println("arr1 after copying and changing an element in arr2: " + Arrays.toString(arr1));
 
         System.out.println("Running Connect Four by CallMeLee...");
         starter();

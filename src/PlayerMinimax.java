@@ -22,56 +22,56 @@ public class PlayerMinimax extends Player {
 
         Board.getInstance().createBB();
 
-        ExecutorService executor = Executors.newFixedThreadPool(7);
-        Board.getInstance().makeMove(1, Board.getInstance().getTurn());
-        Callable<Integer> thread1 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
-        Board.getInstance().loadBB();
-        Board.getInstance().makeMove(2, Board.getInstance().getTurn());
-        Callable<Integer> thread2 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
-        Board.getInstance().loadBB();
-        Board.getInstance().makeMove(3, Board.getInstance().getTurn());
-        Callable<Integer> thread3 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
-        Board.getInstance().loadBB();
-        Board.getInstance().makeMove(4, Board.getInstance().getTurn());
-        Callable<Integer> thread4 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
-        Board.getInstance().loadBB();
-        Board.getInstance().makeMove(5, Board.getInstance().getTurn());
-        Callable<Integer> thread5 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
-        Board.getInstance().loadBB();
-        Board.getInstance().makeMove(6, Board.getInstance().getTurn());
-        Callable<Integer> thread6 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
-        Board.getInstance().loadBB();
-        Board.getInstance().makeMove(7, Board.getInstance().getTurn());
-        Callable<Integer> thread7 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
-        Board.getInstance().loadBB();
-
-        Future<Integer> future1 = executor.submit(thread1);
-        Future<Integer> future2 = executor.submit(thread2);
-        Future<Integer> future3 = executor.submit(thread3);
-        Future<Integer> future4 = executor.submit(thread4);
-        Future<Integer> future5 = executor.submit(thread5);
-        Future<Integer> future6 = executor.submit(thread6);
-        Future<Integer> future7 = executor.submit(thread7);
-
-        col1val = future1.get();
-        col2val = future2.get();
-        col3val = future3.get();
-        col4val = future4.get();
-        col5val = future5.get();
-        col6val = future6.get();
-        col7val = future7.get();
-
-        executor.shutdown();
-
-        Board.getInstance().loadBB();
-
-        System.out.println("Column 1 Value: " + col1val);
-        System.out.println("Column 2 Value: " + col2val);
-        System.out.println("Column 3 Value: " + col3val);
-        System.out.println("Column 4 Value: " + col4val);
-        System.out.println("Column 5 Value: " + col5val);
-        System.out.println("Column 6 Value: " + col6val);
-        System.out.println("Column 7 Value: " + col7val);
+//        ExecutorService executor = Executors.newFixedThreadPool(7);
+//        Board.getInstance().makeMove(1, Board.getInstance().getTurn());
+//        Callable<Integer> thread1 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+//        Board.getInstance().loadBB();
+//        Board.getInstance().makeMove(2, Board.getInstance().getTurn());
+//        Callable<Integer> thread2 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+//        Board.getInstance().loadBB();
+//        Board.getInstance().makeMove(3, Board.getInstance().getTurn());
+//        Callable<Integer> thread3 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+//        Board.getInstance().loadBB();
+//        Board.getInstance().makeMove(4, Board.getInstance().getTurn());
+//        Callable<Integer> thread4 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+//        Board.getInstance().loadBB();
+//        Board.getInstance().makeMove(5, Board.getInstance().getTurn());
+//        Callable<Integer> thread5 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+//        Board.getInstance().loadBB();
+//        Board.getInstance().makeMove(6, Board.getInstance().getTurn());
+//        Callable<Integer> thread6 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+//        Board.getInstance().loadBB();
+//        Board.getInstance().makeMove(7, Board.getInstance().getTurn());
+//        Callable<Integer> thread7 = new Multithread(Board.getInstance().getPlayingBoard(), this.depth, Board.getInstance().getTurn(), localAlpha, localBeta);
+//        Board.getInstance().loadBB();
+//
+//        Future<Integer> future1 = executor.submit(thread1);
+//        Future<Integer> future2 = executor.submit(thread2);
+//        Future<Integer> future3 = executor.submit(thread3);
+//        Future<Integer> future4 = executor.submit(thread4);
+//        Future<Integer> future5 = executor.submit(thread5);
+//        Future<Integer> future6 = executor.submit(thread6);
+//        Future<Integer> future7 = executor.submit(thread7);
+//
+//        col1val = future1.get();
+//        col2val = future2.get();
+//        col3val = future3.get();
+//        col4val = future4.get();
+//        col5val = future5.get();
+//        col6val = future6.get();
+//        col7val = future7.get();
+//
+//        executor.shutdown();
+//
+//        Board.getInstance().loadBB();
+//
+//        System.out.println("Column 1 Value: " + col1val);
+//        System.out.println("Column 2 Value: " + col2val);
+//        System.out.println("Column 3 Value: " + col3val);
+//        System.out.println("Column 4 Value: " + col4val);
+//        System.out.println("Column 5 Value: " + col5val);
+//        System.out.println("Column 6 Value: " + col6val);
+//        System.out.println("Column 7 Value: " + col7val);
 
         if (Board.getInstance().isColNotFull(1)) {
             Timer.start();
@@ -252,8 +252,8 @@ public class PlayerMinimax extends Player {
         boolean turn = Board.getInstance().getTurn();
         ArrayList<Integer> evalList = new ArrayList<>(0);
         ArrayList<Integer> psList = new ArrayList<>(0);
-//        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[42])) return 4;
-//        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0})) return 4;
+        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[42])) return 4;
+        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0})) return 4;
         assessCols(turn, winnerval, loserval, evalList, psList, print);
         if (print) System.out.println("EL: " + evalList);
         if (print) System.out.println("PSL: " + psList);
@@ -661,17 +661,17 @@ public class PlayerMinimax extends Player {
 
     private int search(int depth, boolean maximizingPlayer, int alpha, int beta) {
         counter++;
-        if (!Board.getInstance().areFieldsLeft(Board.getInstance().getPlayingBoard())) {
-            return 0;
-        }
         int evl = Board.getInstance().evaluate();
         if (depth == 0 || evl == 999999 || evl == -999999) {
             return evl / (this.depth - depth + 1);
         }
-        int preS = transpositionTable.prevSearch(Board.getInstance().getPlayingBoard());
-        if (preS != 69420) {
-//            return preS;
+        if (!Board.getInstance().areFieldsLeft(Board.getInstance().getPlayingBoard())) {
+            return 0;
         }
+//        int preS = transpositionTable.prevSearch(Board.getInstance().getPlayingBoard());
+//        if (preS != 69420) {
+//            return preS;
+//        }
 
         ArrayList<Integer> moves = Board.getInstance().legalMoves();
         if (maximizingPlayer) {
@@ -687,7 +687,7 @@ public class PlayerMinimax extends Player {
                 }
                 this.alpha = alpha;
             }
-            transpositionTable.add(Board.getInstance().getPlayingBoard(), maxEval);
+//            transpositionTable.add(Board.getInstance().getPlayingBoard(), maxEval);
             return maxEval;
         } else {
             int minEval = 999999;
@@ -702,7 +702,7 @@ public class PlayerMinimax extends Player {
                 }
                 this.beta = beta;
             }
-            transpositionTable.add(Board.getInstance().getPlayingBoard(), minEval);
+//            transpositionTable.add(Board.getInstance().getPlayingBoard(), minEval);
             return minEval;
         }
     }

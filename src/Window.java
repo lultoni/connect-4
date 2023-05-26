@@ -18,7 +18,7 @@ public class Window implements MouseListener {
         AtomicInteger wp = new AtomicInteger();
         AtomicInteger bp = new AtomicInteger();
         JSlider dsl = new JSlider();
-        dsl.setBounds(210, 450, 300, 10);
+        dsl.setBounds(210, 500, 300, 10);
         dsl.setMinimum(0);
         dsl.setMaximum(20);
         JPanel pn = new JPanel() {
@@ -27,10 +27,10 @@ public class Window implements MouseListener {
                 g.setFont(new Font( "SansSerif", Font.BOLD, 50));
                 g.drawString("Connect Four by CallMeLee", 90, 100);
                 g.setFont(new Font( "SansSerif", Font.BOLD, 20));
-                g.drawString("0", 200, 450);
-                g.drawString("20", 520, 450);
+                g.drawString("0", 200, 500);
+                g.drawString("20", 520, 500);
                 String dsv = String.valueOf(dsl.getValue());
-                g.drawString(dsv, 350, 475);
+                g.drawString(dsv, 350, 525);
             }
         };
         dsl.addChangeListener(l -> frame.repaint());
@@ -43,6 +43,9 @@ public class Window implements MouseListener {
         JToggleButton jtb_white_bot_minimax = new JToggleButton("W: Bot Minimax");
         jtb_white_bot_minimax.setBounds(225, 350, 150, 50);
         jtb_white_bot_minimax.addChangeListener(e -> wp.set(2));
+        JToggleButton jtb_white_bot_mcts = new JToggleButton("W: Bot MCTS");
+        jtb_white_bot_mcts.setBounds(225, 400, 150, 50);
+        jtb_white_bot_mcts.addChangeListener(e -> wp.set(3));
         JToggleButton jtb_black_human = new JToggleButton("B: Human Player");
         jtb_black_human.setBounds(425, 250, 150, 50);
         jtb_black_human.addChangeListener(e -> bp.set(0));
@@ -52,6 +55,9 @@ public class Window implements MouseListener {
         JToggleButton jtb_black_bot_minimax= new JToggleButton("B: Bot Minimax");
         jtb_black_bot_minimax.setBounds(425, 350, 150, 50);
         jtb_black_bot_minimax.addChangeListener(e -> bp.set(2));
+        JToggleButton jtb_black_bot_mcts= new JToggleButton("B: Bot MCTS");
+        jtb_black_bot_mcts.setBounds(425, 400, 150, 50);
+        jtb_black_bot_mcts.addChangeListener(e -> bp.set(3));
         JButton jb_start = new JButton("Start Game");
         jb_start.setBounds(350, 150, 100, 50);
         jb_start.addActionListener(e -> {
@@ -62,9 +68,11 @@ public class Window implements MouseListener {
                 frame.remove(jtb_black_human);
                 frame.remove(jtb_black_bot_random);
                 frame.remove(jtb_black_bot_minimax);
+                frame.remove(jtb_black_bot_mcts);
                 frame.remove(jtb_white_human);
                 frame.remove(jtb_white_bot_random);
                 frame.remove(jtb_white_bot_minimax);
+                frame.remove(jtb_white_bot_mcts);
                 frame.remove(jb_start);
                 frame.remove(dsl);
                 frame.remove(pn);
@@ -75,6 +83,8 @@ public class Window implements MouseListener {
         frame.add(jtb_black_human);
         frame.add(jtb_black_bot_random);
         frame.add(jtb_black_bot_minimax);
+        frame.add(jtb_white_bot_mcts);
+        frame.add(jtb_black_bot_mcts);
         frame.add(jtb_white_human);
         frame.add(jtb_white_bot_random);
         frame.add(jtb_white_bot_minimax);

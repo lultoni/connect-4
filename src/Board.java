@@ -29,6 +29,10 @@ public class Board {
         return playingBoard;
     }
 
+    public void setPlayingBoard(int[] pBoard) {
+        playingBoard = pBoard;
+    }
+
     public void printBoard() {
         Window.frame.repaint();
         System.out.println("~~~~~~~~~~\nPosition-ID: " + new HashRep().decode(playingBoard));
@@ -52,6 +56,7 @@ public class Board {
             start++;
             stop++;
         }
+        System.out.println("Evaluation: " + evaluate());
     }
 
     private boolean turn = true;
@@ -64,6 +69,8 @@ public class Board {
             playerWhite = new PlayerRandom();
         } else if (playerW == 2) {
             playerWhite = new PlayerMinimax(depth);
+        } else if (playerW == 3) {
+            playerWhite = new PlayerMCTS(depth);
         } else {
             playerWhite = new PlayerHuman();
         }
@@ -71,6 +78,8 @@ public class Board {
             playerBlack = new PlayerRandom();
         } else if (playerB == 2) {
             playerBlack = new PlayerMinimax(depth);
+        } else if (playerB == 3) {
+            playerBlack = new PlayerMCTS(depth);
         } else {
             playerBlack = new PlayerHuman();
         }
@@ -313,7 +322,7 @@ public class Board {
         // Small Progress [xx--]
 
         // Special Patterns
-        //   - Pre-seven [???-][xx--][?x??][x???] TODO both upside down seven patterns
+        //   - Pre-seven [???-][xx--][?x??][x???]
         for (int i = 1; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
 //                if (position[i * 6 + j + i] == 0) {
@@ -420,6 +429,10 @@ public class Board {
         return turn;
     }
 
+    public void setTurn(boolean turn) {
+        this.turn = turn;
+    }
+
     public boolean isColNotFull(int col) {
         return playingBoard[col - 1] == 0;
     }
@@ -444,8 +457,12 @@ public class Board {
         return 0;
     }
 
-    public boolean gameOver() {
-        int eval = evaluate();
+    public boolean gameOver(int[] playingBoard) {
+        int eval = evaluate(playingBoard);
         return eval == 999999 || eval == -999999 || !areFieldsLeft(playingBoard);
+    }
+
+    public boolean gameOver() {
+        return gameOver(getPlayingBoard());
     }
 }
