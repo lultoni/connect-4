@@ -22,7 +22,7 @@ public class Window implements MouseListener {
         dsl.setBounds(210, 500, 300, 10);
         dsl.setMinimum(0);
         dsl.setMaximum(20);
-        dsl.setValue(5);
+        dsl.setValue(10);
         JPanel pn = new JPanel() {
             @Override
             public void paint(Graphics g) {
