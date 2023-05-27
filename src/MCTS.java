@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 class MCTS {
     private Board rootState;
@@ -62,13 +63,23 @@ class MCTS {
         return true;
     }
 
-    public int rollOut(Board state) {
+    public int rollOut(Board state) throws ExecutionException, InterruptedException {
+//        while (!state.gameOver()) {
+//            ArrayList<Integer> legalMoves = state.legalMoves();
+//            int randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
+//            state.makeMove(randomMove, state.getTurn());
+//        }
+//
+//        return state.evaluate();
+        int[] startPosition = new int[42];
+        System.arraycopy(state.getPlayingBoard(), 0, startPosition, 0, 42);
+        boolean turn = !state.getTurn();
+        Player player = new PlayerRandom();
         while (!state.gameOver()) {
-            ArrayList<Integer> legalMoves = state.legalMoves();
-            int randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
-            state.makeMove(randomMove, state.getTurn());
+            state.makeMove(player.fetchMove(false), turn);
+            turn = !turn;
         }
-
+        state.loadPosition(startPosition);
         return state.evaluate();
     }
 
@@ -88,7 +99,7 @@ class MCTS {
         }
     }
 
-    public void search(int timeLimit) {
+    public void search(int timeLimit) throws ExecutionException, InterruptedException {
         long startTime = System.currentTimeMillis();
 
         int numRollouts = 0;

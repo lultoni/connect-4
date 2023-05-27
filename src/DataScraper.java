@@ -8,11 +8,11 @@ public class DataScraper {
     // Time (Timer)
     // Winner (Board (evaluate))
     // Free Fields (DataScraper)
-    public static void getData(int depth, int gamesToPlay, Board game) throws ExecutionException, InterruptedException {
+    public static void getData(int depth, int gamesToPlay, Board game, boolean print) throws ExecutionException, InterruptedException {
         System.out.println("Fetching " + gamesToPlay + " games with a depth of " + depth + ".");
         for (int i = 0; i < gamesToPlay; i++) {
             System.out.println("> Currently on game " + (i + 1) + " (" + (gamesToPlay - i) + " to play)");
-            game.gameLoop(2, 2, new int[42], true, depth, false);
+            game.gameLoop(2, 2, new int[42], print, depth, false);
             String winner;
             if (game.evaluate() == 999999) {
                 winner = "White";

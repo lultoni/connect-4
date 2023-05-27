@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Window implements MouseListener {
@@ -189,10 +190,20 @@ public class Window implements MouseListener {
                 g.drawString(p, 10, 335);
                 String eval = "Evaluation: " + Board.getInstance().evaluate(playingBoard);
                 g.drawString(eval, 10, 345);
-                // TECHNICAL DATA
-                // CMD BOARD
             }
         };
+        // PLAY AGAIN BUTTON
+        JButton play_again = new JButton("Start New Game");
+        play_again.setBounds(10, 370, 200, 50);
+        play_again.addActionListener(e -> {
+            System.out.println("\n\n#---# Started New Game:\n");
+            try {
+                Board.getInstance().gameLoop(Main.pt1, Main.pt2, new int[42], true, Main.depth, true);
+            } catch (ExecutionException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        frame.add(play_again);
         frame.add(pn);
         frame.addMouseListener(new MouseListener() {
             @Override

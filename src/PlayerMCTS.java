@@ -90,7 +90,7 @@ public class PlayerMCTS extends Player {
         }
         assessCols(board.getTurn(), winnerval, loserval, print, 10000);
         int bestcol = 0;
-        int bestval = 0;
+        int bestval;
         if (col1val != 69420) bestcol = 1; bestval = col1val;
         if (col2val > bestval && col2val != 69420) bestcol = 2; bestval = col2val;
         if (col3val > bestval && col3val != 69420) bestcol = 3; bestval = col3val;

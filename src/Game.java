@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class Game {
     private Board board;
@@ -9,7 +10,7 @@ public class Game {
         this.mcts = new MCTS();
     }
 
-    public void play() {
+    public void play() throws ExecutionException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
 
         while (!board.gameOver()) {
@@ -56,7 +57,7 @@ public class Game {
         scanner.close();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         System.out.println("Monte Carlo Tree Search Test");
         Game game = new Game();
         game.play();

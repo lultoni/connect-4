@@ -436,11 +436,11 @@ public class PlayerMinimax extends Player {
         }
         if (contains) {
             if (print) System.out.println(Arrays.toString(bettercolarr));
-            for (int m: bettercolarr) {
-                if (m != 0) {
-                    return m;
-                }
-            }
+//            for (int m: bettercolarr) {
+//                if (m != 0) {
+//                    return m;
+//                }
+//            }
             while (true) {
                 int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
                 if (bettercolarr[column] != 0) {
@@ -638,14 +638,17 @@ public class PlayerMinimax extends Player {
         }
         if (contains) {
             if (print) System.out.println(Arrays.toString(worsecolarr));
-//                int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
-//                return worsecolarr.get(column);
-//                return worsecolarr.get(worsecolarr.size() - 1);
-            for (int i = 6; i >= 0; i--) {
-                if (worsecolarr[i] != 0) {
-                    return i + 1;
+            while (true) {
+                int column = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 7);
+                if (worsecolarr[column] != 0) {
+                    return column + 1;
                 }
             }
+//            for (int i = 6; i >= 0; i--) {
+//                if (worsecolarr[i] != 0) {
+//                    return i + 1;
+//                }
+//            }
         }
         if (print) System.out.println("Random Play");
         while (true) {

@@ -10,17 +10,6 @@ public class Main {
 
     public static void main (String[] args) throws ExecutionException, InterruptedException {
 
-        int[] arr1 = {10, 20, 30};
-        System.out.println("arr1 Before copying: " + Arrays.toString(arr1));
-
-        int[] arr2 = new int[arr1.length];
-
-        System.arraycopy(arr1, 0, arr2, 0, arr1.length);
-        System.out.println("arr2 After copying: " + Arrays.toString(arr1));
-
-        arr2[0] = 30;
-        System.out.println("arr1 after copying and changing an element in arr2: " + Arrays.toString(arr1));
-
         System.out.println("Running Connect Four by CallMeLee...");
         starter();
 
@@ -28,7 +17,7 @@ public class Main {
 
     public static void starter(int what) throws ExecutionException, InterruptedException {
         if (what == 0) {
-            DataScraper.getData(10, 100, Board.getInstance());
+            DataScraper.getData(5, 100, Board.getInstance(), false);
         } else if (what == 1) {
             int[] board = {0, 1, -1, -1, 0, 0, 0, 0, 1, -1, 1, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 1, 1, -1, 0, 0, 0, 1, -1, 1, -1, -1, 0, 0, 1, 1, -1, 1, -1, 1, 1};
             Board.getInstance().loadPosition(board);
