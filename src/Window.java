@@ -22,6 +22,7 @@ public class Window implements MouseListener {
         dsl.setBounds(210, 500, 300, 10);
         dsl.setMinimum(0);
         dsl.setMaximum(20);
+        dsl.setValue(5);
         JPanel pn = new JPanel() {
             @Override
             public void paint(Graphics g) {
@@ -197,11 +198,13 @@ public class Window implements MouseListener {
         play_again.setBounds(10, 370, 200, 50);
         play_again.addActionListener(e -> {
             System.out.println("\n\n#---# Started New Game:\n");
-            try {
-                Board.getInstance().gameLoop(Main.pt1, Main.pt2, new int[42], true, Main.depth, true);
-            } catch (ExecutionException | InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
+            Board.getInstance().loadPosition(new int[42]);
+            Board.getInstance().setTurn(true);
+            Board.skip_out_of_game_loop = true;
+            frame.remove(play_again);
+            frame.remove(pn);
+            frame.repaint();
+            gameWindow();
         });
         frame.add(play_again);
         frame.add(pn);

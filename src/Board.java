@@ -7,6 +7,7 @@ public class Board {
     private static volatile Board instance;
     private int[] playingBoard;
     protected static boolean wasInput = false;
+    protected static boolean skip_out_of_game_loop = false;
 
     private Board() {
         this.playingBoard = new int[42];
@@ -92,13 +93,14 @@ public class Board {
                     endTime = System.nanoTime();
                 } while (Math.round((endTime - startTime) / 1e+6) < 100);
             }
+            skip_out_of_game_loop = false;
             if (turn) {
                 if (print) System.out.println("?> White Starts Thinking");
                 if (!playerWhite.getClass().equals(PlayerHuman.class)) {
                     makeMove(playerWhite.fetchMove(print), turn);
                 } else {
                     wasInput = false;
-                    while (!wasInput) {
+                    while (!wasInput && !skip_out_of_game_loop) {
                         Thread.onSpinWait();
                     }
                 }
@@ -110,7 +112,7 @@ public class Board {
                     makeMove(playerBlack.fetchMove(print), turn);
                 } else {
                     wasInput = false;
-                    while (!wasInput) {
+                    while (!wasInput && !skip_out_of_game_loop) {
                         Thread.onSpinWait();
                     }
                 }
@@ -164,9 +166,9 @@ public class Board {
         // winner eval
         final int winnerBlack =  -999999;
         final int winnerWhite =   999999;
-        final int bestAdvantage = 50000;
-        final int goodAdvantage = 25000;
-        final int okAdvantage =   1000;
+        final int bestAdvantage = 5000;
+        final int goodAdvantage = 2500;
+        final int okAdvantage =   100;
         int advantage = 0;
         // Check for horizontal winner & forces
         for (int i = 0; i < 6; i++) {
