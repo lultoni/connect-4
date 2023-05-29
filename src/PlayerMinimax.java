@@ -238,7 +238,6 @@ public class PlayerMinimax extends Player {
 
     @Override
     public int fetchMove(boolean print) throws ExecutionException, InterruptedException {
-        if (print) System.out.println("Positions in the HashTable: " + transpositionTable.size());
         counter = 0;
         int winnerval;
         int loserval;
@@ -252,8 +251,9 @@ public class PlayerMinimax extends Player {
         boolean turn = Board.getInstance().getTurn();
         ArrayList<Integer> evalList = new ArrayList<>(0);
         ArrayList<Integer> psList = new ArrayList<>(0);
-        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[42])) return 4;
-        if (Arrays.equals(Board.getInstance().getPlayingBoard(), new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0})) return 4;
+        int opening = HashRep.findOpening(HashRep.decode(Board.getInstance().getPlayingBoard()));
+        if (print) System.out.println("Opening Recommendation: " + opening);
+        if (opening != 0) return opening;
         assessCols(turn, winnerval, loserval, evalList, psList, print);
         if (print) System.out.println("EL: " + evalList);
         if (print) System.out.println("PSL: " + psList);
@@ -664,6 +664,12 @@ public class PlayerMinimax extends Player {
 
     private int search(int depth, boolean maximizingPlayer, int alpha, int beta) {
         counter++;
+//        Board.getInstance().printBoard();
+        int preS = transpositionTable.prevSearch(HashRep.decode(Board.getInstance().getPlayingBoard()));
+        if (preS != 69420) {
+//            System.out.println("Found in Transposition table. (Found Evaluation: " + preS + ")");
+            return preS;
+        }
         int evl = Board.getInstance().evaluate();
         if (depth == 0 || evl == 999999 || evl == -999999) {
             return evl / (this.depth - depth + 1);
@@ -671,10 +677,6 @@ public class PlayerMinimax extends Player {
         if (!Board.getInstance().areFieldsLeft(Board.getInstance().getPlayingBoard())) {
             return 0;
         }
-//        int preS = transpositionTable.prevSearch(Board.getInstance().getPlayingBoard());
-//        if (preS != 69420) {
-//            return preS;
-//        }
 
         ArrayList<Integer> moves = Board.getInstance().legalMoves();
         if (maximizingPlayer) {
@@ -690,7 +692,7 @@ public class PlayerMinimax extends Player {
                 }
                 this.alpha = alpha;
             }
-//            transpositionTable.add(Board.getInstance().getPlayingBoard(), maxEval);
+            transpositionTable.add(HashRep.decode(Board.getInstance().getPlayingBoard()), maxEval);
             return maxEval;
         } else {
             int minEval = 999999;
@@ -705,7 +707,7 @@ public class PlayerMinimax extends Player {
                 }
                 this.beta = beta;
             }
-//            transpositionTable.add(Board.getInstance().getPlayingBoard(), minEval);
+//            transpositionTable.add(transpositionTable.decode(Board.getInstance().getPlayingBoard()), minEval);
             return minEval;
         }
     }

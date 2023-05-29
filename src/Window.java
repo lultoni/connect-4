@@ -138,6 +138,39 @@ public class Window implements MouseListener {
                     }
                 }
                 // WINNER TEXT
+                String[] winArr = winStonesFinder(Board.getInstance().getPlayingBoard());
+                int row = Integer.parseInt(winArr[0]) * 50 + 13 + 12;
+                int column = Integer.parseInt(winArr[1]) * 50 + 13 + 32;
+                if (row != -1 && column != -1) {
+                    g.setFont(new Font( "SansSerif", Font.BOLD, 30));
+                    g.setColor(Color.black);
+                    switch (winArr[2]) {
+                        case "row" -> {
+                            g.drawString("X", row, column);
+                            g.drawString("X", row + 50, column);
+                            g.drawString("X", row + 100, column);
+                            g.drawString("X", row + 150, column);
+                        }
+                        case "column" -> {
+                            g.drawString("X", row, column);
+                            g.drawString("X", row, column + 50);
+                            g.drawString("X", row, column + 100);
+                            g.drawString("X", row, column + 150);
+                        }
+                        case "dia_l" -> {
+                            g.drawString("X", row, column);
+                            g.drawString("X", row + 50, column + 50);
+                            g.drawString("X", row + 100, column + 100);
+                            g.drawString("X", row + 150, column + 150);
+                        }
+                        case "dia_r" -> {
+                            g.drawString("X", row, column + 150);
+                            g.drawString("X", row + 50, column + 100);
+                            g.drawString("X", row + 100, column + 50);
+                            g.drawString("X", row + 150, column);
+                        }
+                    }
+                }
                 if (Board.getInstance().evaluate(playingBoard) == 999999) {
                     g.setColor(whiteplayer);
                     g.setFont(new Font( "SansSerif", Font.BOLD, 30));
@@ -256,8 +289,39 @@ public class Window implements MouseListener {
         return -1;
     }
 
-    static void endScreen() {
-
+    static String[] winStonesFinder(int[] position) {
+        String[] outArr = new String[]{"-1", "-1", "null"};
+        for (int column = 0; column < 6; column++) {
+            for (int row = 0; row < 7; row++) {
+                int index = column * 6 + column + row;
+                // Row Winner, Forces
+                if (row < 4) switch (position[index] + position[index + 1] + position[index + 2] + position[index + 3]) {
+                    case 4, -4 -> {
+                        return new String[]{String.valueOf(row), String.valueOf(column), "row"};
+                    }
+                }
+                // Column Winner, Forces
+                if (column < 3) switch (position[index] + position[index + 7] + position[index + 14] + position[index + 21]) {
+                    case 4, -4 -> {
+                        return new String[]{String.valueOf(row), String.valueOf(column), "column"};
+                    }
+                }
+                // Diagonal Winner, Forces
+                //   - Left Top Right Bottom
+                if (row < 4 && column < 3) switch (position[index] + position[index + 8] + position[index + 16] + position[index + 24]) {
+                    case 4, -4 -> {
+                        return new String[]{String.valueOf(row), String.valueOf(column), "dia_l"};
+                    }
+                }
+                //   - Left Bottom Right Top
+                if (row < 4 && column < 3) switch (position[index + 21] + position[index + 15] + position[index + 9] + position[index + 3]) {
+                    case 4, -4 -> {
+                        return new String[]{String.valueOf(row), String.valueOf(column), "dia_r"};
+                    }
+                }
+            }
+        }
+        return outArr;
     }
 
     @Override

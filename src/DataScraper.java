@@ -25,7 +25,7 @@ public class DataScraper {
             System.out.println(">res> " + dataLine);
             dataLine += "\n";
             try {
-                Files.write(Paths.get("data2.txt"), dataLine.getBytes(), StandardOpenOption.APPEND);
+                Files.write(Paths.get("data3.txt"), dataLine.getBytes(), StandardOpenOption.APPEND);
             }catch (IOException e) {
                 System.out.println("THROW IO BRO!!!");
             }

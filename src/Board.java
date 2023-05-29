@@ -30,13 +30,9 @@ public class Board {
         return playingBoard;
     }
 
-    public void setPlayingBoard(int[] pBoard) {
-        playingBoard = pBoard;
-    }
-
     public void printBoard() {
         Window.frame.repaint();
-        System.out.println("~~~~~~~~~~\nPosition-ID: " + new HashRep().decode(playingBoard));
+        System.out.println("~~~~~~~~~~\nPosition-ID: " + HashRep.decode(playingBoard));
         System.out.println("Position: " + Arrays.toString(playingBoard));
         int start = 0;
         int stop = 7;
@@ -509,6 +505,8 @@ public class Board {
     }
 
     public int winnerAfterMove(boolean whoWillMakeTheMoveNow, int winnerval, int loserval) {
+        int current_eval = evaluate();
+        if (current_eval == winnerval || current_eval == loserval) return current_eval;
         for (int i = 1; i <= 7; i++) {
             if (isColNotFull(i)) {
                 makeMove(i, whoWillMakeTheMoveNow);
