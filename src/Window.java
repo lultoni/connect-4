@@ -247,6 +247,7 @@ public class Window implements MouseListener {
                 int col = columnFinder(e);
                 if (col != -1 && !Board.wasInput && Board.getInstance().isColNotFull(col)) {
                     System.out.println("Sending through " + col);
+                    Board.getInstance().playerInput = col;
                     Board.getInstance().makeMove(col, Board.getInstance().getTurn());
                     Board.wasInput = true;
                 }

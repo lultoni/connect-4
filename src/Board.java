@@ -9,6 +9,9 @@ public class Board {
     protected static boolean wasInput = false;
     protected static boolean skip_out_of_game_loop = false;
 
+    protected String gameMoves = "";
+    protected int playerInput = 0;
+
     private Board() {
         this.playingBoard = new int[42];
     }
@@ -34,6 +37,7 @@ public class Board {
         Window.frame.repaint();
         System.out.println("~~~~~~~~~~\nPosition-ID: " + HashRep.decode(playingBoard));
         System.out.println("Position: " + Arrays.toString(playingBoard));
+        System.out.println("Moves: " + gameMoves);
         int start = 0;
         int stop = 7;
         for (int i = 0; i < 6; i++) {
@@ -87,30 +91,36 @@ public class Board {
                 long endTime;
                 do {
                     endTime = System.nanoTime();
-                } while (Math.round((endTime - startTime) / 1e+6) < 100);
+                } while (Math.round((endTime - startTime) / 1e+6) < 200);
             }
             skip_out_of_game_loop = false;
             if (turn) {
                 if (print) System.out.println("?> White Starts Thinking");
                 if (!playerWhite.getClass().equals(PlayerHuman.class)) {
-                    makeMove(playerWhite.fetchMove(print), turn);
+                    int whiteMove = playerWhite.fetchMove(print);
+                    makeMove(whiteMove, turn);
+                    gameMoves += whiteMove;
                 } else {
                     wasInput = false;
                     while (!wasInput && !skip_out_of_game_loop) {
                         Thread.onSpinWait();
                     }
+                    gameMoves += String.valueOf(playerInput);
                 }
                 if (print) System.out.println("?> White made a move.");
                 turn = false;
             } else {
                 if (print) System.out.println("?> Black Starts Thinking");
                 if (!playerBlack.getClass().equals(PlayerHuman.class)) {
-                    makeMove(playerBlack.fetchMove(print), turn);
+                    int blackMove = playerBlack.fetchMove(print);
+                    makeMove(blackMove, turn);
+                    gameMoves += blackMove;
                 } else {
                     wasInput = false;
                     while (!wasInput && !skip_out_of_game_loop) {
                         Thread.onSpinWait();
                     }
+                    gameMoves += String.valueOf(playerInput);
                 }
                 if (print) System.out.println("?> Black made a move.");
                 turn = true;

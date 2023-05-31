@@ -4,7 +4,7 @@ import java.util.Random;
 public class HashRep {
 
     private final HashMap<Long, Integer> table = new HashMap<>();
-    private static final HashMap<Long, Integer> openingBook = new HashMap<>();
+    private static final HashMap<String, Integer> openingBook = new HashMap<>();
 
     protected int prevSearch(long positionId) {
         if (table.containsKey(positionId)) {
@@ -29,15 +29,15 @@ public class HashRep {
         return table.size();
     }
 
-    static protected int findOpening(long positionId) {
-        if (openingBook.containsKey(positionId)) {
-            return openingBook.get(positionId);
+    static protected int findOpening(String position) {
+        if (openingBook.containsKey(position)) {
+            return openingBook.get(position);
         }
         return 0;
     }
 
-    static protected void addOpening(int[] position, int move) {
-        openingBook.put(calculateZobristHash(position), move);
+    static protected void addOpening(String position, int move) {
+        openingBook.put(position, move);
     }
 
     private static final int BOARD_SIZE = 42;

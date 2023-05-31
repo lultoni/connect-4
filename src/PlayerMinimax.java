@@ -251,7 +251,7 @@ public class PlayerMinimax extends Player {
         boolean turn = Board.getInstance().getTurn();
         ArrayList<Integer> evalList = new ArrayList<>(0);
         ArrayList<Integer> psList = new ArrayList<>(0);
-        int opening = HashRep.findOpening(HashRep.decode(Board.getInstance().getPlayingBoard()));
+        int opening = HashRep.findOpening(Board.getInstance().gameMoves);
         if (print) System.out.println("Opening Recommendation: " + opening);
         if (opening != 0) return opening;
         assessCols(turn, winnerval, loserval, evalList, psList, print);
