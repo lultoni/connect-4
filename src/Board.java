@@ -91,7 +91,7 @@ public class Board {
                 long endTime;
                 do {
                     endTime = System.nanoTime();
-                } while (Math.round((endTime - startTime) / 1e+6) < 200);
+                } while (Math.round((endTime - startTime) / 1e+6) < 100);
             }
             skip_out_of_game_loop = false;
             if (turn) {
