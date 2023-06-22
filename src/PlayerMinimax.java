@@ -86,7 +86,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col1val = search(depth, !turn, localAlpha, localBeta);
             }
-            if (print) System.out.println("1: " + col1val);
+            if (print) System.out.println("1: " + mateInText(col1val));
             evalList.add(col1val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -109,7 +109,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col2val = search(depth, !turn, localAlpha, localBeta);
             }
-            if (print) System.out.println("2: " + col2val);
+            if (print) System.out.println("2: " + mateInText(col2val));
             evalList.add(col2val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -132,7 +132,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col3val = search(depth, !turn, localAlpha, localBeta);
             }
-            if (print) System.out.println("3: " + col3val);
+            if (print) System.out.println("3: " + mateInText(col3val));
             evalList.add(col3val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -155,7 +155,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col4val = search(depth, !turn, localAlpha, localBeta);
             }
-            if (print) System.out.println("4: " + col4val);
+            if (print) System.out.println("4: " + mateInText(col4val));
             evalList.add(col4val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -178,7 +178,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col5val = search(depth, !turn, localAlpha, localBeta);
             }
-            if (print) System.out.println("5: " + col5val);
+            if (print) System.out.println("5: " + mateInText(col5val));
             evalList.add(col5val);
             psList.add(counter);
             Board.getInstance().loadBB();
@@ -201,7 +201,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col6val = search(depth, !turn, localAlpha, localBeta);
             }
-            if (print) System.out.println("6: " + col6val);
+            if (print) System.out.println("6: " + mateInText(col6val));
             Board.getInstance().loadBB();
             Timer.end();
         }
@@ -222,7 +222,7 @@ public class PlayerMinimax extends Player {
             } else {
                 col7val = search(depth, !turn, localAlpha, localBeta);
             }
-            if (print) System.out.println("7: " + col7val);
+            if (print) System.out.println("7: " + mateInText(col7val));
 //            if (turn) localAlpha = Math.max(localAlpha, col7val);
 //            if (!turn) localBeta = Math.min(localBeta, col7val);
 //            System.out.println("a[" + localAlpha + "] b[" + localBeta + "]");
@@ -710,6 +710,60 @@ public class PlayerMinimax extends Player {
 //            transpositionTable.add(transpositionTable.decode(Board.getInstance().getPlayingBoard()), minEval);
             return minEval;
         }
+    }
+
+    private String mateInText(int value) {
+        String out = "+m";
+        switch (value) {
+            case 999999 -> out += "1";
+            case 999999/2 -> out += "2";
+            case 999999/3 -> out += "3";
+            case 999999/4 -> out += "4";
+            case 999999/5 -> out += "5";
+            case 999999/6 -> out += "6";
+            case 999999/7 -> out += "7";
+            case 999999/8 -> out += "8";
+            case 999999/9 -> out += "9";
+            case 999999/10 -> out += "10";
+            case 999999/11 -> out += "11";
+            case 999999/12 -> out += "12";
+            case 999999/13 -> out += "13";
+            case 999999/14 -> out += "14";
+            case 999999/15 -> out += "15";
+            case 999999/16 -> out += "16";
+            case 999999/17 -> out += "17";
+            case 999999/18 -> out += "18";
+            case 999999/19 -> out += "19";
+            case 999999/20 -> out += "20";
+            default -> out = String.valueOf(value);
+        }
+        if (!out.contains("+m")) {
+            out = "-m";
+            switch (value) {
+                case -999999 -> out += "1";
+                case -999999/2 -> out += "2";
+                case -999999/3 -> out += "3";
+                case -999999/4 -> out += "4";
+                case -999999/5 -> out += "5";
+                case -999999/6 -> out += "6";
+                case -999999/7 -> out += "7";
+                case -999999/8 -> out += "8";
+                case -999999/9 -> out += "9";
+                case -999999/10 -> out += "10";
+                case -999999/11 -> out += "11";
+                case -999999/12 -> out += "12";
+                case -999999/13 -> out += "13";
+                case -999999/14 -> out += "14";
+                case -999999/15 -> out += "15";
+                case -999999/16 -> out += "16";
+                case -999999/17 -> out += "17";
+                case -999999/18 -> out += "18";
+                case -999999/19 -> out += "19";
+                case -999999/20 -> out += "20";
+                default -> out = String.valueOf(value);
+            }
+        }
+        return out;
     }
 
 }

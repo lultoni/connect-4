@@ -109,7 +109,7 @@ public class Main {
         if (what == 0) {
             DataScraper.getData(10, 100, Board.getInstance(), false);
         } else if (what == 1) {
-            int[] board = {0, 0, 0, 1, 0, 0, 0, 0, 0, -1, 1, -1, 0, 0, 0, 0, -1, -1, 1, 0, -1, 0, 0, 1, 1, -1, 0, 1, 0, 0, -1, -1, 1, 1, -1, 1, 0, -1, 1, 1, 1, -1};
+            int[] board = {0, 0, 0, -1, 0, 1, 0, 0, 0, -1, 1, 0, -1, 0, 0, 0, 1, -1, 1, 1, 0, 0, -1, -1, 1, -1, -1, 0, 1, 1, -1, -1, 1, 1, 0, -1, -1, 1, 1, 1, -1, 0};
             Board.getInstance().loadPosition(board);
             Window.startMenu();
             while (!gameStart) {

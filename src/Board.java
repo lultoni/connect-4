@@ -35,7 +35,7 @@ public class Board {
 
     public void printBoard() {
         Window.frame.repaint();
-        System.out.println("~~~~~~~~~~\nPosition-ID: " + HashRep.decode(playingBoard));
+        System.out.println("\n\033[0m" + "~~~~~~~~~~\nPosition-ID: " + HashRep.decode(playingBoard));
         System.out.println("Position: " + Arrays.toString(playingBoard));
         System.out.println("Moves: " + gameMoves);
         int start = 0;
@@ -48,16 +48,16 @@ public class Board {
                 if (playingBoard[i * 6 + j] == 0) {
                     System.out.print(" ");
                 } else if (playingBoard[i * 6 + j] == 1) {
-                    System.out.print("X");
+                    System.out.print("\033[31m" + "X");
                 } else if (playingBoard[i * 6 + j] == -1) {
-                    System.out.print("O");
+                    System.out.print("\u001b[38;5;11m" + "O");
                 }
             }
             System.out.print("\n");
             start++;
             stop++;
         }
-        System.out.println("Evaluation: " + evaluate());
+        System.out.println("\033[0m" + "Evaluation: " + evaluate());
     }
 
     private boolean turn = true;
@@ -525,7 +525,7 @@ public class Board {
                 if (eval == winnerval) {
                     return  winnerval;
                 } else if (eval == loserval) {
-                    return loserval;
+                    return loserval/2;
                 }
             }
         }
