@@ -14,7 +14,7 @@ public class Window implements MouseListener {
     static Color blackplayer = new Color(253, 167, 0);
     static Color emptyplayer = new Color(129, 125, 125);
 
-    static void startMenu() {
+    static void startMenu(boolean newGame) {
         frame.setBounds(10, 10, 820, 620);
         AtomicInteger wp = new AtomicInteger();
         AtomicInteger bp = new AtomicInteger();
@@ -78,8 +78,15 @@ public class Window implements MouseListener {
                 frame.remove(jb_start);
                 frame.remove(dsl);
                 frame.remove(pn);
-                frame.repaint();
                 Main.gameStart = true;
+                if (newGame) {
+                    try {
+                        Main.main(new String[]{});
+                    } catch (ExecutionException | InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                frame.repaint();
             }
         });
         frame.add(jtb_black_human);
@@ -231,13 +238,15 @@ public class Window implements MouseListener {
         play_again.setBounds(10, 370, 200, 50);
         play_again.addActionListener(e -> {
             System.out.println("\n\n#---# Started New Game:\n");
+            Board.skip_out_of_game_loop = true;
+            Board.getInstance().gameMoves = "";
             Board.getInstance().loadPosition(new int[42]);
             Board.getInstance().setTurn(true);
-            Board.skip_out_of_game_loop = true;
             frame.remove(play_again);
             frame.remove(pn);
             frame.repaint();
-            gameWindow();
+//            gameWindow();
+            startMenu(true);
         });
         frame.add(play_again);
         frame.add(pn);

@@ -713,7 +713,7 @@ public class PlayerMinimax extends Player {
     }
 
     private String mateInText(int value) {
-        String out = "+m";
+        String out = "\033[31m" + "m";
         switch (value) {
             case 999999 -> out += "1";
             case 999999/2 -> out += "2";
@@ -737,8 +737,8 @@ public class PlayerMinimax extends Player {
             case 999999/20 -> out += "20";
             default -> out = String.valueOf(value);
         }
-        if (!out.contains("+m")) {
-            out = "-m";
+        if (!out.contains("m")) {
+            out = "\u001b[38;5;11m" + "m";
             switch (value) {
                 case -999999 -> out += "1";
                 case -999999/2 -> out += "2";
@@ -763,7 +763,17 @@ public class PlayerMinimax extends Player {
                 default -> out = String.valueOf(value);
             }
         }
-        return out;
+        if (!out.contains("m")) {
+            if (Integer.parseInt(out) < 0) {
+                out = "\u001b[38;5;11m" + out;
+            } else if (Integer.parseInt(out) > 0) {
+                out = "\033[31m" + out;
+            }
+            else {
+                out = "\033[0m" + out + "\033[0m";
+            }
+        }
+        return out + "\033[0m";
     }
 
 }

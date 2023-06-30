@@ -95,7 +95,7 @@ public class Board {
             }
             skip_out_of_game_loop = false;
             if (turn) {
-                if (print) System.out.println("?> White Starts Thinking");
+                if (print) System.out.println("?>" + "\033[31m" + " Red" + "\033[0m" + " Starts Thinking");
                 if (!playerWhite.getClass().equals(PlayerHuman.class)) {
                     int whiteMove = playerWhite.fetchMove(print);
                     makeMove(whiteMove, turn);
@@ -107,10 +107,10 @@ public class Board {
                     }
                     gameMoves += String.valueOf(playerInput);
                 }
-                if (print) System.out.println("?> White made a move.");
+                if (print) System.out.println("?>" + "\033[31m" + " Red" + "\033[0m" + " made a move.");
                 turn = false;
             } else {
-                if (print) System.out.println("?> Black Starts Thinking");
+                if (print) System.out.println("?>" + "\u001b[38;5;11m" + " Yellow" + "\033[0m" + " Starts Thinking");
                 if (!playerBlack.getClass().equals(PlayerHuman.class)) {
                     int blackMove = playerBlack.fetchMove(print);
                     makeMove(blackMove, turn);
@@ -122,7 +122,7 @@ public class Board {
                     }
                     gameMoves += String.valueOf(playerInput);
                 }
-                if (print) System.out.println("?> Black made a move.");
+                if (print) System.out.println("?>" + "\u001b[38;5;11m" + " Yellow" + "\033[0m" + " made a move.");
                 turn = true;
             }
             if (evaluate() == 999999 || evaluate() == -999999) {
@@ -131,11 +131,11 @@ public class Board {
         }
         if (print) printBoard();
         if (evaluate() == 999999) {
-            if (print) System.out.println("\nWhite won.");
+            if (print) System.out.println("\n" + "\033[31m" + " Red" + "\033[0m" + " won.");
         } else if (evaluate() == -999999) {
-            if (print) System.out.println("\nBlack won.");
+            if (print) System.out.println("\n" + "\u001b[38;5;11m" + " Yellow" + "\033[0m" + " won.");
         } else {
-            if (print) System.out.println("\nDraw.");
+            if (print) System.out.println("\033[0m" +"\nDraw.");
         }
         if (print) System.out.println("Average ms time: " + Timer.averageMs());
     }
