@@ -29,6 +29,7 @@ public class DataScraper {
             }catch (IOException e) {
                 System.out.println("THROW IO BRO!!!");
             }
+            Board.getInstance().gameMoves = "";
         }
         System.out.println("Ready to import.");
     }
