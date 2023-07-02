@@ -234,6 +234,20 @@ public class Main {
         HashRep.addOpening("452554", 4);
         HashRep.addOpening("452553", 3);
         HashRep.addOpening("452556", 6);
+        HashRep.addOpening("452334", 4);
+        HashRep.addOpening("436333", 4);
+        HashRep.addOpening("436334", 4);
+        HashRep.addOpening("436335", 5);
+        HashRep.addOpening("436332", 2);
+        HashRep.addOpening("436554", 4);
+        HashRep.addOpening("4367", 6);
+        HashRep.addOpening("436766", 4);
+        HashRep.addOpening("4366", 7);
+        HashRep.addOpening("4365", 4);
+        HashRep.addOpening("4364", 4);
+        HashRep.addOpening("4363", 3);
+        HashRep.addOpening("4362", 4);
+        HashRep.addOpening("4361", 4);
 
         starter();
 
